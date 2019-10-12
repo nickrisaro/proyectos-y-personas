@@ -29,7 +29,7 @@ func TestUnProyectoSinPersonasAsignadasTieneFitnessNegativo(t *testing.T) {
 func TestUnProyectoConIgualCantidadDePersonasRequeridasQueAsignadasTieneFitnessMayorOIgualQueCero(t *testing.T) {
 
 	unProyecto := proyecto.New(1, 1.0)
-	unaPersona := persona.New(1.0)
+	unaPersona := persona.New(1.0, persona.Senior)
 	unProyecto.AsignarPersona(unaPersona)
 
 	fitness, _ := unProyecto.Fitness()
@@ -49,7 +49,7 @@ func TestUnProyectoSinPresupuestoAsignadoNoTieneFitness(t *testing.T) {
 func TestUnProyectoQueSeExcedeDelPresupuestoTieneFitnessNegativo(t *testing.T) {
 
 	unProyecto := proyecto.New(1, 1.0)
-	unaPersona := persona.New(2.0)
+	unaPersona := persona.New(2.0, persona.Junior)
 	unProyecto.AsignarPersona(unaPersona)
 
 	fitness, _ := unProyecto.Fitness()
@@ -60,15 +60,31 @@ func TestUnProyectoQueSeExcedeDelPresupuestoTieneFitnessNegativo(t *testing.T) {
 func TestUnProyectoConMenorGastoDeSueldosTieneMejorFitnessQueUnoConMayorGastoDeSueldos(t *testing.T) {
 
 	proyectoQueGastaMenos := proyecto.New(1, 1.0)
-	unaPersona := persona.New(0.7)
+	unaPersona := persona.New(0.7, persona.Senior)
 	proyectoQueGastaMenos.AsignarPersona(unaPersona)
 	proyectoQueGastaMas := proyecto.New(1, 1.0)
-	otraPersona := persona.New(0.9)
+	otraPersona := persona.New(0.9, persona.Senior)
 	proyectoQueGastaMas.AsignarPersona(otraPersona)
 
 	fitnessDelProyectoQueGastaMenos, _ := proyectoQueGastaMenos.Fitness()
 	fitnessDelProyectoQueGastaMas, _ := proyectoQueGastaMas.Fitness()
 
 	assert.Greater(t, fitnessDelProyectoQueGastaMenos, fitnessDelProyectoQueGastaMas, "El fitness del proyecto más barato debería ser mayor que el del más caro")
+
+}
+
+func TestUnProyectoConPersonasDeMasSeniorityTieneMejorFitnessQueUnoConPersonasDeMenorSeniority(t *testing.T) {
+
+	proyectoConMenosSeniority := proyecto.New(1, 1.0)
+	unaPersona := persona.New(0.9, persona.Junior)
+	proyectoConMenosSeniority.AsignarPersona(unaPersona)
+	proyectoConMAyorSeniority := proyecto.New(1, 1.0)
+	otraPersona := persona.New(0.9, persona.Senior)
+	proyectoConMAyorSeniority.AsignarPersona(otraPersona)
+
+	fitnessDelProyectoConMenorSeniority, _ := proyectoConMenosSeniority.Fitness()
+	fitnessDelProyectoConMayorSeniority, _ := proyectoConMAyorSeniority.Fitness()
+
+	assert.Less(t, fitnessDelProyectoConMenorSeniority, fitnessDelProyectoConMayorSeniority, "El fitness del proyecto de más seniority debería ser mayor que el del menos")
 
 }

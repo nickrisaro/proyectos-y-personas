@@ -8,6 +8,7 @@ import (
 
 const coeficientePersonas float64 = 1.0
 const coeficientePresupuesto float64 = 0.5
+const coeficienteSeniority float64 = 0.4
 
 // Proyecto contiene toda la información relativa a un proyecto.
 type Proyecto struct {
@@ -41,11 +42,13 @@ func (p *Proyecto) Fitness() (float64, error) {
 	}
 
 	sueldos := 0.0
+	seniorities := 0
 	for _, unaPersona := range p.personasAsignadas {
 		sueldos += unaPersona.Sueldo()
+		seniorities += int(unaPersona.Seniority())
 	}
 
 	fitness := coeficientePersonas*float64(len(p.personasAsignadas)-p.personasRequeridas) +
-		coeficientePresupuesto*(p.presupuesto-sueldos)
+		coeficientePresupuesto*(p.presupuesto-sueldos) + coeficienteSeniority*float64(seniorities)
 	return fitness, nil
 }
