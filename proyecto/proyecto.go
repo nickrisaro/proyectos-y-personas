@@ -10,6 +10,7 @@ const coeficientePersonas float64 = 1.0
 const coeficientePresupuesto float64 = 0.5
 const coeficienteSeniority float64 = 0.4
 const coeficienteHardSkills float64 = 0.4
+const coeficienteSoftSkills float64 = 0.4
 
 // PersonasRequeridasPorSkill indica cuántas personas se requieren de cada skill
 type PersonasRequeridasPorSkill map[persona.HardSkill]int
@@ -81,6 +82,16 @@ func (p *Proyecto) cantidadDeHardSkillsFaltantes() int {
 	return faltantes
 }
 
+func (p *Proyecto) cantidadDeSoftSkillsDiferentes() int {
+
+	softSkills := make(map[persona.SoftSkill]bool)
+
+	for _, persona := range p.personasAsignadas {
+		softSkills[persona.SoftSkill()] = true
+	}
+	return len(softSkills)
+}
+
 // Fitness evalúa cuan bien está este proyecto
 // es una medida para comparar contra otro proyecto u otras "versiones" del mismo proyecto
 func (p *Proyecto) Fitness() (float64, error) {
@@ -101,7 +112,8 @@ func (p *Proyecto) Fitness() (float64, error) {
 
 	fitness := coeficientePersonas*float64(len(p.personasAsignadas)-p.personasRequeridas.cantidadDePersonasRequeridas()) +
 		coeficientePresupuesto*(p.presupuesto-sueldos) +
-		coeficienteSeniority*float64(seniorities) -
+		coeficienteSeniority*float64(seniorities) +
+		coeficienteSoftSkills*float64(p.cantidadDeSoftSkillsDiferentes()) -
 		coeficienteHardSkills*float64(p.cantidadDeHardSkillsFaltantes())
 
 	return fitness, nil

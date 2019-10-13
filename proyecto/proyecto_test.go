@@ -57,8 +57,8 @@ func TestUnProyectoQueSeExcedeDelPresupuestoTieneFitnessNegativo(t *testing.T) {
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(1)
-	unProyecto := proyecto.New(personasRequeridas, 1.0)
-	unaPersona := persona.New(2.0, persona.Junior, persona.Desarrollo, persona.Investigacion)
+	unProyecto := proyecto.New(personasRequeridas, 0.5)
+	unaPersona := persona.New(3.0, persona.Junior, persona.Desarrollo, persona.Investigacion)
 	unProyecto.AsignarPersona(unaPersona)
 
 	fitness, _ := unProyecto.Fitness()
@@ -129,4 +129,31 @@ func TestUnProyectoQueCubreTodosLosHardSkillsRequeridosTieneMejorFitnessQueUnoQu
 	fitnessDelProyectoQueNoCubreTodosLosHardSkills, _ := proyectoQueNoCubreTodosLosHardSkills.Fitness()
 
 	assert.Less(t, fitnessDelProyectoQueNoCubreTodosLosHardSkills, fitnessDelProyectoQueCubreTodosLosHardSkills, "El fitness del proyecto que cubre todos los  HardSkills debería ser mayor que el del que no los cubre")
+}
+
+func TestUnProyectoQueCubreTodosLosSoftSkillsTieneMejorFitnessQueUnoQueNoCubreTodos(t *testing.T) {
+
+	unInvestigador := persona.New(0.9, persona.Junior, persona.Desarrollo, persona.Investigacion)
+	unaInvestigadora := persona.New(0.9, persona.Junior, persona.Desarrollo, persona.Investigacion)
+	otroInvestigador := persona.New(0.9, persona.Junior, persona.Desarrollo, persona.Investigacion)
+	unaMentora := persona.New(0.9, persona.Junior, persona.Desarrollo, persona.Mentoreo)
+	unaNegociadora := persona.New(0.9, persona.Junior, persona.Desarrollo, persona.Negociacion)
+
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(3)
+	proyectoQueCubreTodosLosSoftSkills := proyecto.New(personasRequeridas, 1.0)
+	proyectoQueNoCubreTodosLosSoftSkills := proyecto.New(personasRequeridas, 1.0)
+
+	proyectoQueCubreTodosLosSoftSkills.AsignarPersona(unInvestigador)
+	proyectoQueCubreTodosLosSoftSkills.AsignarPersona(unaMentora)
+	proyectoQueCubreTodosLosSoftSkills.AsignarPersona(unaNegociadora)
+
+	proyectoQueNoCubreTodosLosSoftSkills.AsignarPersona(unInvestigador)
+	proyectoQueNoCubreTodosLosSoftSkills.AsignarPersona(unaInvestigadora)
+	proyectoQueNoCubreTodosLosSoftSkills.AsignarPersona(otroInvestigador)
+
+	fitnessDelProyectoQueCubreTodosLosSoftSkills, _ := proyectoQueCubreTodosLosSoftSkills.Fitness()
+	fitnessDelProyectoQueNoCubreTodosLosSoftSkills, _ := proyectoQueNoCubreTodosLosSoftSkills.Fitness()
+
+	assert.Less(t, fitnessDelProyectoQueNoCubreTodosLosSoftSkills, fitnessDelProyectoQueCubreTodosLosSoftSkills, "El fitness del proyecto que cubre todos los  SoftSkills debería ser mayor que el del que no los cubre")
 }
