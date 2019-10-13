@@ -10,7 +10,8 @@ import (
 
 func TestUnProyectoSinPersonasRequeridasNoTieneFitness(t *testing.T) {
 
-	unProyecto := proyecto.New(0, 1.0)
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	unProyecto := proyecto.New(personasRequeridas, 1.0)
 
 	_, err := unProyecto.Fitness()
 
@@ -19,7 +20,9 @@ func TestUnProyectoSinPersonasRequeridasNoTieneFitness(t *testing.T) {
 
 func TestUnProyectoSinPersonasAsignadasTieneFitnessNegativo(t *testing.T) {
 
-	unProyecto := proyecto.New(1, 1.0)
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	unProyecto := proyecto.New(personasRequeridas, 1.0)
 
 	fitness, _ := unProyecto.Fitness()
 
@@ -28,7 +31,9 @@ func TestUnProyectoSinPersonasAsignadasTieneFitnessNegativo(t *testing.T) {
 
 func TestUnProyectoConIgualCantidadDePersonasRequeridasQueAsignadasTieneFitnessMayorOIgualQueCero(t *testing.T) {
 
-	unProyecto := proyecto.New(1, 1.0)
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	unProyecto := proyecto.New(personasRequeridas, 1.0)
 	unaPersona := persona.New(1.0, persona.Senior, persona.Desarrollo)
 	unProyecto.AsignarPersona(unaPersona)
 
@@ -39,7 +44,9 @@ func TestUnProyectoConIgualCantidadDePersonasRequeridasQueAsignadasTieneFitnessM
 
 func TestUnProyectoSinPresupuestoAsignadoNoTieneFitness(t *testing.T) {
 
-	unProyecto := proyecto.New(1, 0.0)
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	unProyecto := proyecto.New(personasRequeridas, 0.0)
 
 	_, err := unProyecto.Fitness()
 
@@ -48,7 +55,9 @@ func TestUnProyectoSinPresupuestoAsignadoNoTieneFitness(t *testing.T) {
 
 func TestUnProyectoQueSeExcedeDelPresupuestoTieneFitnessNegativo(t *testing.T) {
 
-	unProyecto := proyecto.New(1, 1.0)
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	unProyecto := proyecto.New(personasRequeridas, 1.0)
 	unaPersona := persona.New(2.0, persona.Junior, persona.Desarrollo)
 	unProyecto.AsignarPersona(unaPersona)
 
@@ -59,10 +68,12 @@ func TestUnProyectoQueSeExcedeDelPresupuestoTieneFitnessNegativo(t *testing.T) {
 
 func TestUnProyectoConMenorGastoDeSueldosTieneMejorFitnessQueUnoConMayorGastoDeSueldos(t *testing.T) {
 
-	proyectoQueGastaMenos := proyecto.New(1, 1.0)
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	proyectoQueGastaMenos := proyecto.New(personasRequeridas, 1.0)
 	unaPersona := persona.New(0.7, persona.Senior, persona.Desarrollo)
 	proyectoQueGastaMenos.AsignarPersona(unaPersona)
-	proyectoQueGastaMas := proyecto.New(1, 1.0)
+	proyectoQueGastaMas := proyecto.New(personasRequeridas, 1.0)
 	otraPersona := persona.New(0.9, persona.Senior, persona.Desarrollo)
 	proyectoQueGastaMas.AsignarPersona(otraPersona)
 
@@ -75,10 +86,12 @@ func TestUnProyectoConMenorGastoDeSueldosTieneMejorFitnessQueUnoConMayorGastoDeS
 
 func TestUnProyectoConPersonasDeMasSeniorityTieneMejorFitnessQueUnoConPersonasDeMenorSeniority(t *testing.T) {
 
-	proyectoConMenosSeniority := proyecto.New(1, 1.0)
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	proyectoConMenosSeniority := proyecto.New(personasRequeridas, 1.0)
 	unaPersona := persona.New(0.9, persona.Junior, persona.Desarrollo)
 	proyectoConMenosSeniority.AsignarPersona(unaPersona)
-	proyectoConMAyorSeniority := proyecto.New(1, 1.0)
+	proyectoConMAyorSeniority := proyecto.New(personasRequeridas, 1.0)
 	otraPersona := persona.New(0.9, persona.Senior, persona.Desarrollo)
 	proyectoConMAyorSeniority.AsignarPersona(otraPersona)
 
