@@ -9,6 +9,7 @@ import (
 const coeficientePersonas float64 = 1.0
 const coeficientePresupuesto float64 = 0.5
 const coeficienteSeniority float64 = 0.4
+const coeficienteHardSkills float64 = 0.4
 
 // PersonasRequeridasPorSkill indica cuántas personas se requieren de cada skill
 type PersonasRequeridasPorSkill map[persona.HardSkill]int
@@ -21,6 +22,16 @@ func NewPersonasRequeridasPorSkill() PersonasRequeridasPorSkill {
 // Desarrollo modifica la cantidad de personas con ese skill
 func (p PersonasRequeridasPorSkill) Desarrollo(cantidad int) {
 	p[persona.Desarrollo] = cantidad
+}
+
+// Diseño modifica la cantidad de personas con ese skill
+func (p PersonasRequeridasPorSkill) Diseño(cantidad int) {
+	p[persona.Diseño] = cantidad
+}
+
+// Operaciones modifica la cantidad de personas con ese skill
+func (p PersonasRequeridasPorSkill) Operaciones(cantidad int) {
+	p[persona.Operaciones] = cantidad
 }
 
 func (p PersonasRequeridasPorSkill) sinPersonasAsignadas() bool {
@@ -55,6 +66,21 @@ func (p *Proyecto) AsignarPersona(unaPersona *persona.Persona) {
 	p.personasAsignadas = append(p.personasAsignadas, unaPersona)
 }
 
+func (p *Proyecto) cantidadDeHardSkillsFaltantes() int {
+	faltantes := 0
+
+	for skill, cantidad := range p.personasRequeridas {
+		faltantesSkill := cantidad
+		for _, persona := range p.personasAsignadas {
+			if persona.HardSkill() == skill && faltantesSkill > 0 {
+				faltantesSkill--
+			}
+		}
+		faltantes += faltantesSkill
+	}
+	return faltantes
+}
+
 // Fitness evalúa cuan bien está este proyecto
 // es una medida para comparar contra otro proyecto u otras "versiones" del mismo proyecto
 func (p *Proyecto) Fitness() (float64, error) {
@@ -74,6 +100,9 @@ func (p *Proyecto) Fitness() (float64, error) {
 	}
 
 	fitness := coeficientePersonas*float64(len(p.personasAsignadas)-p.personasRequeridas.cantidadDePersonasRequeridas()) +
-		coeficientePresupuesto*(p.presupuesto-sueldos) + coeficienteSeniority*float64(seniorities)
+		coeficientePresupuesto*(p.presupuesto-sueldos) +
+		coeficienteSeniority*float64(seniorities) -
+		coeficienteHardSkills*float64(p.cantidadDeHardSkillsFaltantes())
+
 	return fitness, nil
 }

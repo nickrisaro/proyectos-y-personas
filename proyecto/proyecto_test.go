@@ -101,3 +101,32 @@ func TestUnProyectoConPersonasDeMasSeniorityTieneMejorFitnessQueUnoConPersonasDe
 	assert.Less(t, fitnessDelProyectoConMenorSeniority, fitnessDelProyectoConMayorSeniority, "El fitness del proyecto de más seniority debería ser mayor que el del menos")
 
 }
+
+func TestUnProyectoQueCubreTodosLosHardSkillsRequeridosTieneMejorFitnessQueUnoQueNoCubreTodos(t *testing.T) {
+
+	unDesarrolladorJunior := persona.New(0.9, persona.Junior, persona.Desarrollo)
+	unaDesarrolladoraJunior := persona.New(0.9, persona.Junior, persona.Desarrollo)
+	otroDesarrolladorJunior := persona.New(0.9, persona.Junior, persona.Desarrollo)
+	unaDiseñadoraJunior := persona.New(0.9, persona.Junior, persona.Diseño)
+	unaOperadoraJunior := persona.New(0.9, persona.Junior, persona.Operaciones)
+
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	personasRequeridas.Diseño(1)
+	personasRequeridas.Operaciones(1)
+	proyectoQueCubreTodosLosHardSkills := proyecto.New(personasRequeridas, 1.0)
+	proyectoQueNoCubreTodosLosHardSkills := proyecto.New(personasRequeridas, 1.0)
+
+	proyectoQueCubreTodosLosHardSkills.AsignarPersona(unDesarrolladorJunior)
+	proyectoQueCubreTodosLosHardSkills.AsignarPersona(unaDiseñadoraJunior)
+	proyectoQueCubreTodosLosHardSkills.AsignarPersona(unaOperadoraJunior)
+
+	proyectoQueNoCubreTodosLosHardSkills.AsignarPersona(unDesarrolladorJunior)
+	proyectoQueNoCubreTodosLosHardSkills.AsignarPersona(unaDesarrolladoraJunior)
+	proyectoQueNoCubreTodosLosHardSkills.AsignarPersona(otroDesarrolladorJunior)
+
+	fitnessDelProyectoQueCubreTodosLosHardSkills, _ := proyectoQueCubreTodosLosHardSkills.Fitness()
+	fitnessDelProyectoQueNoCubreTodosLosHardSkills, _ := proyectoQueNoCubreTodosLosHardSkills.Fitness()
+
+	assert.Less(t, fitnessDelProyectoQueNoCubreTodosLosHardSkills, fitnessDelProyectoQueCubreTodosLosHardSkills, "El fitness del proyecto que cubre todos los  HardSkills debería ser mayor que el del que no los cubre")
+}
