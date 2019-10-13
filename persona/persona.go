@@ -17,11 +17,23 @@ type HardSkill int
 
 const (
 	// Desarrollo habilidad de una persona para desarrollar una funcionalidad
-	Desarrollo HardSkill = iota + 1
+	Desarrollo HardSkill = iota
 	// Diseño habilidad de una persona para realizar el diseño de una web
 	Diseño
 	// Operaciones habilidad de una persona para asegurarse de que una aplicación funcione correctamente
 	Operaciones
+)
+
+// SoftSkill representa las habilidades técnicas que puede tener una persona
+type SoftSkill int
+
+const (
+	// Negociacion habilidad de una persona para negociar con otra persona
+	Negociacion SoftSkill = iota
+	// Mentoreo habilidad de una persona para enseñar a otra persona
+	Mentoreo
+	// Investigacion habilidad de una persona para investigar nuevas tecnologías
+	Investigacion
 )
 
 // Persona representa a una persona que trabaja en la empresa
@@ -30,14 +42,16 @@ type Persona struct {
 	sueldo    float64
 	seniority Seniority
 	hardSkill HardSkill
+	softSkill SoftSkill
 }
 
 // New construye una nueva persona
-func New(sueldo float64, seniority Seniority, hardSkill HardSkill) *Persona {
+func New(sueldo float64, seniority Seniority, hardSkill HardSkill, softSkill SoftSkill) *Persona {
 	return &Persona{
 		sueldo:    sueldo,
 		seniority: seniority,
 		hardSkill: hardSkill,
+		softSkill: softSkill,
 	}
 }
 
@@ -54,4 +68,9 @@ func (p *Persona) Seniority() Seniority {
 // HardSkill inidica cuál es la habilidad técnica de la persona
 func (p *Persona) HardSkill() HardSkill {
 	return p.hardSkill
+}
+
+// SoftSkill inidica cuál es la habilidad blanda de la persona
+func (p *Persona) SoftSkill() SoftSkill {
+	return p.softSkill
 }
