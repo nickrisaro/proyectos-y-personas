@@ -67,6 +67,22 @@ func (p *Proyecto) AsignarPersona(unaPersona *persona.Persona) {
 	p.personasAsignadas = append(p.personasAsignadas, unaPersona)
 }
 
+func (p *Proyecto) sueldos() float64 {
+	sueldos := 0.0
+	for _, unaPersona := range p.personasAsignadas {
+		sueldos += unaPersona.Sueldo()
+	}
+	return sueldos
+}
+
+func (p *Proyecto) seniorities() int {
+	seniorities := 0
+	for _, unaPersona := range p.personasAsignadas {
+		seniorities += int(unaPersona.Seniority())
+	}
+	return seniorities
+}
+
 func (p *Proyecto) cantidadDeHardSkillsFaltantes() int {
 	faltantes := 0
 
@@ -103,16 +119,9 @@ func (p *Proyecto) Fitness() (float64, error) {
 		return 0.0, errors.New("El proyecto debe tener un presupuesto para calcular el fitness")
 	}
 
-	sueldos := 0.0
-	seniorities := 0
-	for _, unaPersona := range p.personasAsignadas {
-		sueldos += unaPersona.Sueldo()
-		seniorities += int(unaPersona.Seniority())
-	}
-
 	fitness := coeficientePersonas*float64(len(p.personasAsignadas)-p.personasRequeridas.cantidadDePersonasRequeridas()) +
-		coeficientePresupuesto*(p.presupuesto-sueldos) +
-		coeficienteSeniority*float64(seniorities) +
+		coeficientePresupuesto*(p.presupuesto-p.sueldos()) +
+		coeficienteSeniority*float64(p.seniorities()) +
 		coeficienteSoftSkills*float64(p.cantidadDeSoftSkillsDiferentes()) -
 		coeficienteHardSkills*float64(p.cantidadDeHardSkillsFaltantes())
 
