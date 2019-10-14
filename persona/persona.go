@@ -39,6 +39,7 @@ const (
 // Persona representa a una persona que trabaja en la empresa
 // tiene un sueledo
 type Persona struct {
+	nombre    string
 	sueldo    float64
 	seniority Seniority
 	hardSkill HardSkill
@@ -46,8 +47,9 @@ type Persona struct {
 }
 
 // New construye una nueva persona
-func New(sueldo float64, seniority Seniority, hardSkill HardSkill, softSkill SoftSkill) *Persona {
+func New(nombre string, sueldo float64, seniority Seniority, hardSkill HardSkill, softSkill SoftSkill) *Persona {
 	return &Persona{
+		nombre:    nombre,
 		sueldo:    sueldo,
 		seniority: seniority,
 		hardSkill: hardSkill,
@@ -73,4 +75,8 @@ func (p *Persona) HardSkill() HardSkill {
 // SoftSkill inidica cuál es la habilidad blanda de la persona
 func (p *Persona) SoftSkill() SoftSkill {
 	return p.softSkill
+}
+
+func (p *Persona) Nombre() string {
+	return p.nombre
 }
