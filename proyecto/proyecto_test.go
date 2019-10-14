@@ -15,6 +15,16 @@ func TestUnProyectoTieneNombre(t *testing.T) {
 	assert.Equal(t, "Proyecto uno", unProyecto.Nombre(), "El nombre del proyecto es incorrecto")
 }
 
+func TestUnProyectoSePuedeClonar(t *testing.T) {
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	unProyecto := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
+
+	clonDelProyecto := unProyecto.Clonar()
+
+	assert.Equal(t, unProyecto, clonDelProyecto, "El clon no es igual al padre")
+}
+
 func TestUnProyectoSinPersonasRequeridasNoTieneFitness(t *testing.T) {
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()

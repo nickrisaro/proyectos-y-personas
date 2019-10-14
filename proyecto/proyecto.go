@@ -69,9 +69,16 @@ func (p *Proyecto) AsignarPersona(unaPersona *persona.Persona) {
 	p.personasAsignadas = append(p.personasAsignadas, unaPersona)
 }
 
+// Nombre indica el nombre del proyecto
 func (p *Proyecto) Nombre() string {
 	return p.nombre
 }
+
+//Clonar realiza una copia de las características del proyecto, pero no de las personas asignadas a él
+func (p *Proyecto) Clonar() *Proyecto {
+	return New(p.nombre, p.personasRequeridas, p.presupuesto)
+}
+
 func (p *Proyecto) sueldos() float64 {
 	sueldos := 0.0
 	for _, unaPersona := range p.personasAsignadas {
