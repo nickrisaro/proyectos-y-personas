@@ -8,10 +8,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestUnProyectoTieneNombre(t *testing.T) {
+
+	unProyecto := proyecto.New("Proyecto uno", nil, 1.0)
+
+	assert.Equal(t, "Proyecto uno", unProyecto.Nombre(), "El nombre del proyecto es incorrecto")
+}
+
 func TestUnProyectoSinPersonasRequeridasNoTieneFitness(t *testing.T) {
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
-	unProyecto := proyecto.New(personasRequeridas, 1.0)
+	unProyecto := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
 
 	_, err := unProyecto.Fitness()
 
@@ -22,7 +29,7 @@ func TestUnProyectoSinPersonasAsignadasTieneFitnessNegativo(t *testing.T) {
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(1)
-	unProyecto := proyecto.New(personasRequeridas, 1.0)
+	unProyecto := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
 
 	fitness, _ := unProyecto.Fitness()
 
@@ -33,7 +40,7 @@ func TestUnProyectoConIgualCantidadDePersonasRequeridasQueAsignadasTieneFitnessM
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(1)
-	unProyecto := proyecto.New(personasRequeridas, 1.0)
+	unProyecto := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
 	unaPersona := persona.New("María", 1.0, persona.Senior, persona.Desarrollo, persona.Investigacion)
 	unProyecto.AsignarPersona(unaPersona)
 
@@ -46,7 +53,7 @@ func TestUnProyectoSinPresupuestoAsignadoNoTieneFitness(t *testing.T) {
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(1)
-	unProyecto := proyecto.New(personasRequeridas, 0.0)
+	unProyecto := proyecto.New("Proyecto uno", personasRequeridas, 0.0)
 
 	_, err := unProyecto.Fitness()
 
@@ -57,7 +64,7 @@ func TestUnProyectoQueSeExcedeDelPresupuestoTieneFitnessNegativo(t *testing.T) {
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(1)
-	unProyecto := proyecto.New(personasRequeridas, 0.5)
+	unProyecto := proyecto.New("Proyecto uno", personasRequeridas, 0.5)
 	unaPersona := persona.New("María", 3.0, persona.Junior, persona.Desarrollo, persona.Investigacion)
 	unProyecto.AsignarPersona(unaPersona)
 
@@ -70,10 +77,10 @@ func TestUnProyectoConMenorGastoDeSueldosTieneMejorFitnessQueUnoConMayorGastoDeS
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(1)
-	proyectoQueGastaMenos := proyecto.New(personasRequeridas, 1.0)
+	proyectoQueGastaMenos := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
 	unaPersona := persona.New("María", 0.7, persona.Senior, persona.Desarrollo, persona.Investigacion)
 	proyectoQueGastaMenos.AsignarPersona(unaPersona)
-	proyectoQueGastaMas := proyecto.New(personasRequeridas, 1.0)
+	proyectoQueGastaMas := proyecto.New("Proyecto dos", personasRequeridas, 1.0)
 	otraPersona := persona.New("Ana", 0.9, persona.Senior, persona.Desarrollo, persona.Investigacion)
 	proyectoQueGastaMas.AsignarPersona(otraPersona)
 
@@ -88,10 +95,10 @@ func TestUnProyectoConPersonasDeMasSeniorityTieneMejorFitnessQueUnoConPersonasDe
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(1)
-	proyectoConMenosSeniority := proyecto.New(personasRequeridas, 1.0)
+	proyectoConMenosSeniority := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
 	unaPersona := persona.New("María", 0.9, persona.Junior, persona.Desarrollo, persona.Investigacion)
 	proyectoConMenosSeniority.AsignarPersona(unaPersona)
-	proyectoConMAyorSeniority := proyecto.New(personasRequeridas, 1.0)
+	proyectoConMAyorSeniority := proyecto.New("Proyecto dos", personasRequeridas, 1.0)
 	otraPersona := persona.New("Ana", 0.9, persona.Senior, persona.Desarrollo, persona.Investigacion)
 	proyectoConMAyorSeniority.AsignarPersona(otraPersona)
 
@@ -114,8 +121,8 @@ func TestUnProyectoQueCubreTodosLosHardSkillsRequeridosTieneMejorFitnessQueUnoQu
 	personasRequeridas.Desarrollo(1)
 	personasRequeridas.Diseño(1)
 	personasRequeridas.Operaciones(1)
-	proyectoQueCubreTodosLosHardSkills := proyecto.New(personasRequeridas, 1.0)
-	proyectoQueNoCubreTodosLosHardSkills := proyecto.New(personasRequeridas, 1.0)
+	proyectoQueCubreTodosLosHardSkills := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
+	proyectoQueNoCubreTodosLosHardSkills := proyecto.New("Proyecto dos", personasRequeridas, 1.0)
 
 	proyectoQueCubreTodosLosHardSkills.AsignarPersona(unDesarrolladorJunior)
 	proyectoQueCubreTodosLosHardSkills.AsignarPersona(unaDiseñadoraJunior)
@@ -141,8 +148,8 @@ func TestUnProyectoQueCubreTodosLosSoftSkillsTieneMejorFitnessQueUnoQueNoCubreTo
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(3)
-	proyectoQueCubreTodosLosSoftSkills := proyecto.New(personasRequeridas, 1.0)
-	proyectoQueNoCubreTodosLosSoftSkills := proyecto.New(personasRequeridas, 1.0)
+	proyectoQueCubreTodosLosSoftSkills := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
+	proyectoQueNoCubreTodosLosSoftSkills := proyecto.New("Proyecto dos", personasRequeridas, 1.0)
 
 	proyectoQueCubreTodosLosSoftSkills.AsignarPersona(unInvestigador)
 	proyectoQueCubreTodosLosSoftSkills.AsignarPersona(unaMentora)

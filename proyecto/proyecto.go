@@ -49,14 +49,16 @@ func (p PersonasRequeridasPorSkill) cantidadDePersonasRequeridas() int {
 
 // Proyecto contiene toda la información relativa a un proyecto.
 type Proyecto struct {
+	nombre             string
 	personasRequeridas PersonasRequeridasPorSkill
 	presupuesto        float64
 	personasAsignadas  []*persona.Persona
 }
 
 // New construye un nuevo proyecto
-func New(cantidadDePersonasRequeridas PersonasRequeridasPorSkill, presupuesto float64) *Proyecto {
+func New(nombre string, cantidadDePersonasRequeridas PersonasRequeridasPorSkill, presupuesto float64) *Proyecto {
 	return &Proyecto{
+		nombre:             nombre,
 		personasRequeridas: cantidadDePersonasRequeridas,
 		presupuesto:        presupuesto,
 	}
@@ -67,6 +69,9 @@ func (p *Proyecto) AsignarPersona(unaPersona *persona.Persona) {
 	p.personasAsignadas = append(p.personasAsignadas, unaPersona)
 }
 
+func (p *Proyecto) Nombre() string {
+	return p.nombre
+}
 func (p *Proyecto) sueldos() float64 {
 	sueldos := 0.0
 	for _, unaPersona := range p.personasAsignadas {
