@@ -131,8 +131,8 @@ func TestUnProyectoQueCubreTodosLosHardSkillsRequeridosTieneMejorFitnessQueUnoQu
 	personasRequeridas.Desarrollo(1)
 	personasRequeridas.Diseño(1)
 	personasRequeridas.Operaciones(1)
-	proyectoQueCubreTodosLosHardSkills := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
-	proyectoQueNoCubreTodosLosHardSkills := proyecto.New("Proyecto dos", personasRequeridas, 1.0)
+	proyectoQueCubreTodosLosHardSkills := proyecto.New("Proyecto uno", personasRequeridas, 3.0)
+	proyectoQueNoCubreTodosLosHardSkills := proyecto.New("Proyecto dos", personasRequeridas, 3.0)
 
 	proyectoQueCubreTodosLosHardSkills.AsignarPersona(unDesarrolladorJunior)
 	proyectoQueCubreTodosLosHardSkills.AsignarPersona(unaDiseñadoraJunior)
@@ -158,8 +158,8 @@ func TestUnProyectoQueCubreTodosLosSoftSkillsTieneMejorFitnessQueUnoQueNoCubreTo
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(3)
-	proyectoQueCubreTodosLosSoftSkills := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
-	proyectoQueNoCubreTodosLosSoftSkills := proyecto.New("Proyecto dos", personasRequeridas, 1.0)
+	proyectoQueCubreTodosLosSoftSkills := proyecto.New("Proyecto uno", personasRequeridas, 3.0)
+	proyectoQueNoCubreTodosLosSoftSkills := proyecto.New("Proyecto dos", personasRequeridas, 3.0)
 
 	proyectoQueCubreTodosLosSoftSkills.AsignarPersona(unInvestigador)
 	proyectoQueCubreTodosLosSoftSkills.AsignarPersona(unaMentora)

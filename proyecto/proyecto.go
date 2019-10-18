@@ -2,6 +2,7 @@ package proyecto
 
 import (
 	"errors"
+	"math"
 
 	"github.com/nickrisaro/proyectos-y-personas/persona"
 )
@@ -137,5 +138,8 @@ func (p *Proyecto) Fitness() (float64, error) {
 		coeficienteSoftSkills*float64(p.cantidadDeSoftSkillsDiferentes()) -
 		coeficienteHardSkills*float64(p.cantidadDeHardSkillsFaltantes())
 
+	if p.presupuesto-p.sueldos() < 0 {
+		fitness = math.Inf(-1)
+	}
 	return fitness, nil
 }
