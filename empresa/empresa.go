@@ -35,3 +35,26 @@ func (e *Empresa) Empleados() []*persona.Persona {
 func (e *Empresa) Proyectos() []*proyecto.Proyecto {
 	return e.proyectos
 }
+
+// EvaluarSolucion indica cuán buena es una solución
+// solución contiene para cada persona a qué proyecto se la asigna
+func (e *Empresa) EvaluarSolucion(solucion []int) float64 {
+
+	proyectosClonados := make([]*proyecto.Proyecto, 0)
+	for _, proyecto := range e.proyectos {
+		proyectosClonados = append(proyectosClonados, proyecto.Clonar())
+	}
+
+	for persona, proyecto := range solucion {
+		proyectosClonados[proyecto].AsignarPersona(e.empleados[persona])
+	}
+
+	fitness := 0.0
+
+	for _, proyecto := range proyectosClonados {
+		fitnessProyecto, _ := proyecto.Fitness()
+		fitness += fitnessProyecto
+	}
+
+	return fitness
+}
