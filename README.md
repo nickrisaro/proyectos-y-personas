@@ -19,6 +19,7 @@ Los skills no son configurables.
 ## TODO
 * Generar una solución bastante buena
 * Guardar la solución en un archivo
+* Explorar con mutaciones en las soluciones
 * Exportar la solución a distintos tipos de archivo (CSV)
 * Cargar empresa con personas y proyecto de un archivo
 * Cargar los pesos de las características de un archivo

@@ -30,3 +30,17 @@ func TestSeGeneraUnaSolucionParaUnaEmpresa(t *testing.T) {
 	assert.Equal(t, []int{0, 1}, unaSolucion.Configuracion(), "No se obtuvo la solución esperada")
 	assert.Equal(t, 2.0, unaSolucion.Fitness(), "No se obtuvo el fitness esperado")
 }
+
+func TestElAlgoritmoGeneticoGeneraSolucionesAleatorias(t *testing.T) {
+
+	algoritmo := solucion.NewAlgoritmoGenetico(2, 2)
+
+	unaSolucion := algoritmo.GenerarNuevaSolucion()
+	configuracion := unaSolucion.Configuracion()
+
+	assert.Equal(t, 2, len(configuracion), "La longitud de la solución no es la esperada")
+	assert.GreaterOrEqual(t, configuracion[0], 0, "El valor está fuera del rango")
+	assert.LessOrEqual(t, configuracion[0], 1, "El valor está fuera del rango")
+	assert.GreaterOrEqual(t, configuracion[1], 0, "El valor está fuera del rango")
+	assert.LessOrEqual(t, configuracion[1], 1, "El valor está fuera del rango")
+}
