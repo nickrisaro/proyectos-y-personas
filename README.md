@@ -10,6 +10,18 @@ Cada proyecto requiere distintas cantidades de personas con distintos skills y t
 
 El objetivo es armar el mejor equipo posible para cada proyecto sin excederse del presupuesto, con la mayor cantidad de skills duros y blandos y el mayor seniority posible.
 
+## Modelo
+
+Modelé el problema como si cada proyecto fuera una mochila y las personas los elementos que pueden ir dentro de esa mochila.
+
+El presupuesto del proyecto es el peso máximo que soporta la mochila-proyecto.
+
+El sueldo es el peso de cada elemento-personas
+
+Los skills de la persona y las necesidades del proyecto determinan el valor que aporta el elemento-persona a la mochila-proyecto
+
+Para generar las posibles soluciones se utiliza un algoritmo genético que se inicia con unas soluciones aleatorias y en cada ciclo reemplaza el 25% de las soluciones (las de menor fitness) con una combinación de soluciones generadas a partir del 50% de las soluciones (las de mayor fitness). Luego se obtiene de todas las soluciones que se fueron generando la de mayor fitness.
+
 ## Limitaciones/Posibilidades a futuro
 
 Las personas tienen un sólo skill duro y un sólo skill blando, y no se hace distinción de seniority entre ellos.
