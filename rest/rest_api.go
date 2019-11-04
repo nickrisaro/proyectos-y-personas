@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/nickrisaro/proyectos-y-personas/empresa"
 	"github.com/nickrisaro/proyectos-y-personas/persona"
+	"github.com/nickrisaro/proyectos-y-personas/proyecto"
 )
 
 // API API REST para administrar la empresa
@@ -28,6 +29,9 @@ func (a *API) Start() {
 	router.GET("/personas", a.listarPersonas)
 	router.POST("/personas", a.altaPersonas)
 
+	router.GET("/proyectos", a.listarProyectos)
+	router.POST("/proyectos", a.altaProyectos)
+
 	router.Run()
 }
 
@@ -43,4 +47,18 @@ func (a *API) altaPersonas(c *gin.Context) {
 
 func (a *API) listarPersonas(c *gin.Context) {
 	c.JSON(http.StatusOK, a.empresa.Empleados())
+}
+
+func (a *API) altaProyectos(c *gin.Context) {
+	proyectos := make([]proyecto.Proyecto, 0)
+	c.ShouldBindJSON(&proyectos)
+
+	for _, proyecto := range proyectos {
+		a.empresa.DarDeAltaProyecto(&proyecto)
+	}
+	c.JSON(http.StatusOK, struct{ Message string }{fmt.Sprintf("%d proyectos dados de alta", len(proyectos))})
+}
+
+func (a *API) listarProyectos(c *gin.Context) {
+	c.JSON(http.StatusOK, a.empresa.Proyectos())
 }
