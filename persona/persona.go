@@ -39,44 +39,45 @@ const (
 // Persona representa a una persona que trabaja en la empresa
 // tiene un sueledo
 type Persona struct {
-	nombre    string
-	sueldo    float64
-	seniority Seniority
-	hardSkill HardSkill
-	softSkill SoftSkill
+	Anombre    string    `json:"nombre"`
+	Asueldo    float64   `json:"sueldo"`
+	Aseniority Seniority `json:"seniority"`
+	AhardSkill HardSkill `json:"hardSkill"`
+	AsoftSkill SoftSkill `json:"softSkill"`
 }
 
 // New construye una nueva persona
 func New(nombre string, sueldo float64, seniority Seniority, hardSkill HardSkill, softSkill SoftSkill) *Persona {
 	return &Persona{
-		nombre:    nombre,
-		sueldo:    sueldo,
-		seniority: seniority,
-		hardSkill: hardSkill,
-		softSkill: softSkill,
+		Anombre:    nombre,
+		Asueldo:    sueldo,
+		Aseniority: seniority,
+		AhardSkill: hardSkill,
+		AsoftSkill: softSkill,
 	}
 }
 
 // Sueldo representa cuanto gana una persona
 func (p *Persona) Sueldo() float64 {
-	return p.sueldo
+	return p.Asueldo
 }
 
 // Seniority indica cuánto sabe una persona sobre su hard skill
 func (p *Persona) Seniority() Seniority {
-	return p.seniority
+	return p.Aseniority
 }
 
 // HardSkill inidica cuál es la habilidad técnica de la persona
 func (p *Persona) HardSkill() HardSkill {
-	return p.hardSkill
+	return p.AhardSkill
 }
 
 // SoftSkill inidica cuál es la habilidad blanda de la persona
 func (p *Persona) SoftSkill() SoftSkill {
-	return p.softSkill
+	return p.AsoftSkill
 }
 
+// Nombre devuelve el nombre de la persona
 func (p *Persona) Nombre() string {
-	return p.nombre
+	return p.Anombre
 }
