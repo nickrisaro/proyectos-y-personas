@@ -50,10 +50,10 @@ func (p PersonasRequeridasPorSkill) cantidadDePersonasRequeridas() int {
 
 // Proyecto contiene toda la información relativa a un proyecto.
 type Proyecto struct {
-	nombre             string
-	personasRequeridas PersonasRequeridasPorSkill
-	presupuesto        float64
-	personasAsignadas  []*persona.Persona
+	Anombre             string                     `json:"nombre"`
+	ApersonasRequeridas PersonasRequeridasPorSkill `json:"personasRequeridas"`
+	Apresupuesto        float64                    `json:"presupuesto"`
+	ApersonasAsignadas  []*persona.Persona         `json:"personasAsignadas"`
 }
 
 // Resumen contiene un resumen de la información del proyecto
@@ -69,30 +69,30 @@ type Resumen struct {
 // New construye un nuevo proyecto
 func New(nombre string, cantidadDePersonasRequeridas PersonasRequeridasPorSkill, presupuesto float64) *Proyecto {
 	return &Proyecto{
-		nombre:             nombre,
-		personasRequeridas: cantidadDePersonasRequeridas,
-		presupuesto:        presupuesto,
+		Anombre:             nombre,
+		ApersonasRequeridas: cantidadDePersonasRequeridas,
+		Apresupuesto:        presupuesto,
 	}
 }
 
 // AsignarPersona agrega una persona al proyecto
 func (p *Proyecto) AsignarPersona(unaPersona *persona.Persona) {
-	p.personasAsignadas = append(p.personasAsignadas, unaPersona)
+	p.ApersonasAsignadas = append(p.ApersonasAsignadas, unaPersona)
 }
 
 // Nombre indica el nombre del proyecto
 func (p *Proyecto) Nombre() string {
-	return p.nombre
+	return p.Anombre
 }
 
 //Clonar realiza una copia de las características del proyecto, pero no de las personas asignadas a él
 func (p *Proyecto) Clonar() *Proyecto {
-	return New(p.nombre, p.personasRequeridas, p.presupuesto)
+	return New(p.Anombre, p.ApersonasRequeridas, p.Apresupuesto)
 }
 
 func (p *Proyecto) sueldos() float64 {
 	sueldos := 0.0
-	for _, unaPersona := range p.personasAsignadas {
+	for _, unaPersona := range p.ApersonasAsignadas {
 		sueldos += unaPersona.Sueldo()
 	}
 	return sueldos
@@ -100,7 +100,7 @@ func (p *Proyecto) sueldos() float64 {
 
 func (p *Proyecto) seniorities() int {
 	seniorities := 0
-	for _, unaPersona := range p.personasAsignadas {
+	for _, unaPersona := range p.ApersonasAsignadas {
 		seniorities += int(unaPersona.Seniority())
 	}
 	return seniorities
@@ -109,9 +109,9 @@ func (p *Proyecto) seniorities() int {
 func (p *Proyecto) cantidadDeHardSkillsFaltantes() int {
 	faltantes := 0
 
-	for skill, cantidad := range p.personasRequeridas {
+	for skill, cantidad := range p.ApersonasRequeridas {
 		faltantesSkill := cantidad
-		for _, persona := range p.personasAsignadas {
+		for _, persona := range p.ApersonasAsignadas {
 			if persona.HardSkill() == skill && faltantesSkill > 0 {
 				faltantesSkill--
 			}
@@ -135,7 +135,7 @@ func (p *Proyecto) cantidadDeSoftSkillsDiferentes() int {
 
 	softSkills := make(map[persona.SoftSkill]bool)
 
-	for _, persona := range p.personasAsignadas {
+	for _, persona := range p.ApersonasAsignadas {
 		softSkills[persona.SoftSkill()] = true
 	}
 	return len(softSkills)
@@ -154,21 +154,21 @@ func (p *Proyecto) softSkills() map[persona.SoftSkill]int {
 // Fitness evalúa cuan bien está este proyecto
 // es una medida para comparar contra otro proyecto u otras "versiones" del mismo proyecto
 func (p *Proyecto) Fitness() (float64, error) {
-	if p.personasRequeridas.sinPersonasAsignadas() {
+	if p.ApersonasRequeridas.sinPersonasAsignadas() {
 		return 0.0, errors.New("El proyecto debe tener personas requeridas para calcular el fitness")
 	}
 
-	if p.presupuesto == 0.0 {
+	if p.Apresupuesto == 0.0 {
 		return 0.0, errors.New("El proyecto debe tener un presupuesto para calcular el fitness")
 	}
 
-	fitness := coeficientePersonas*float64(len(p.personasAsignadas)-p.personasRequeridas.cantidadDePersonasRequeridas()) +
-		coeficientePresupuesto*(p.presupuesto-p.sueldos()) +
+	fitness := coeficientePersonas*float64(len(p.ApersonasAsignadas)-p.ApersonasRequeridas.cantidadDePersonasRequeridas()) +
+		coeficientePresupuesto*(p.Apresupuesto-p.sueldos()) +
 		coeficienteSeniority*float64(p.seniorities()) +
 		coeficienteSoftSkills*float64(p.cantidadDeSoftSkillsDiferentes()) -
 		coeficienteHardSkills*float64(p.cantidadDeHardSkillsFaltantes())
 
-	if p.presupuesto-p.sueldos() < 0 {
+	if p.Apresupuesto-p.sueldos() < 0 {
 		fitness = math.Inf(-1)
 	}
 	return fitness, nil
