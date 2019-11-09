@@ -73,3 +73,18 @@ func TestSePuedenModificarLosDatosDeUnaPersona(t *testing.T) {
 	personas := []*persona.Persona{juan}
 	assert.Equal(t, personas, empresa.Empleados(), "Los datos de la persona no son correctos")
 }
+
+func TestSePuedenModificarLosDatosDeUnProyecto(t *testing.T) {
+
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	unProyecto := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
+	otroProyecto := proyecto.New("Proyecto dos", personasRequeridas, 1.0)
+	empresa := empresa.New()
+	empresa.DarDeAltaProyecto(unProyecto)
+
+	empresa.ModificarProyecto(0, otroProyecto)
+
+	proyectos := []*proyecto.Proyecto{otroProyecto}
+	assert.Equal(t, proyectos, empresa.Proyectos(), "Los datos del proyecto no son correctos")
+}

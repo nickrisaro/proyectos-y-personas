@@ -31,6 +31,11 @@ func (e *Empresa) DarDeAltaProyecto(proyecto *proyecto.Proyecto) {
 	e.proyectos = append(e.proyectos, proyecto)
 }
 
+// ModificarProyecto modifica el proyecto del ID indicado con los datos del proyecto recibido
+func (e *Empresa) ModificarProyecto(ID int, proyecto *proyecto.Proyecto) {
+	e.proyectos[ID] = proyecto
+}
+
 // Empleados retorna todos los empleados de la empresa
 func (e *Empresa) Empleados() []*persona.Persona {
 	return e.empleados
