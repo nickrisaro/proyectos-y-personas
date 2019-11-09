@@ -158,6 +158,7 @@ func TestUnProyectoQueCubreTodosLosSoftSkillsTieneMejorFitnessQueUnoQueNoCubreTo
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(3)
+
 	proyectoQueCubreTodosLosSoftSkills := proyecto.New("Proyecto uno", personasRequeridas, 3.0)
 	proyectoQueNoCubreTodosLosSoftSkills := proyecto.New("Proyecto dos", personasRequeridas, 3.0)
 
@@ -173,4 +174,46 @@ func TestUnProyectoQueCubreTodosLosSoftSkillsTieneMejorFitnessQueUnoQueNoCubreTo
 	fitnessDelProyectoQueNoCubreTodosLosSoftSkills, _ := proyectoQueNoCubreTodosLosSoftSkills.Fitness()
 
 	assert.Less(t, fitnessDelProyectoQueNoCubreTodosLosSoftSkills, fitnessDelProyectoQueCubreTodosLosSoftSkills, "El fitness del proyecto que cubre todos los  SoftSkills debería ser mayor que el del que no los cubre")
+}
+
+func TestSePuedeObtenerUnResumenDelProyecto(t *testing.T) {
+
+	unInvestigador := persona.New("Mario", 0.9, persona.Junior, persona.Desarrollo, persona.Investigacion)
+	unaInvestigadora := persona.New("Ana", 0.9, persona.Junior, persona.Desarrollo, persona.Investigacion)
+	otroInvestigador := persona.New("Juan", 0.9, persona.Junior, persona.Desarrollo, persona.Investigacion)
+	unaMentora := persona.New("Clara", 0.9, persona.Junior, persona.Diseño, persona.Mentoreo)
+	unaNegociadora := persona.New("Lucía", 0.9, persona.Junior, persona.Operaciones, persona.Negociacion)
+
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(3)
+	personasRequeridas.Diseño(1)
+	personasRequeridas.Operaciones(1)
+
+	miProyecto := proyecto.New("Proyecto uno", personasRequeridas, 3.0)
+
+	miProyecto.AsignarPersona(unInvestigador)
+	miProyecto.AsignarPersona(unaMentora)
+	miProyecto.AsignarPersona(unaNegociadora)
+	miProyecto.AsignarPersona(unaInvestigadora)
+	miProyecto.AsignarPersona(otroInvestigador)
+
+	resumen := miProyecto.ObtenerResumen()
+
+	hardSkills := make(map[persona.HardSkill]int)
+	hardSkills[persona.Desarrollo] = 3
+	hardSkills[persona.Diseño] = 1
+	hardSkills[persona.Operaciones] = 1
+
+	softSkills := make(map[persona.SoftSkill]int)
+	softSkills[persona.Investigacion] = 3
+	softSkills[persona.Mentoreo] = 1
+	softSkills[persona.Negociacion] = 1
+
+	assert.NotEmpty(t, resumen, "El proyecto debe tener un resumen")
+	assert.Equal(t, "Proyecto uno", resumen.Nombre, "El resumen no contiene información del nombre del proyecto")
+	assert.Equal(t, personasRequeridas, resumen.PersonasRequeridas, "El resumen no contiene información de las personas requeridas")
+	assert.Equal(t, 3.0, resumen.Presupuesto, "El resumen no contiene información del presupuesto")
+	assert.Equal(t, 4.5, resumen.Sueldos, "El resumen no contiene información de los sueldos")
+	assert.Equal(t, hardSkills, resumen.HardSkills, "El resumen no contiene información de los hard skills")
+	assert.Equal(t, softSkills, resumen.SoftSkills, "El resumen no contiene información de los soft skills")
 }

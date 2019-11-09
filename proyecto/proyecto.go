@@ -56,6 +56,16 @@ type Proyecto struct {
 	personasAsignadas  []*persona.Persona
 }
 
+// Resumen contiene un resumen de la información del proyecto
+type Resumen struct {
+	Nombre             string
+	PersonasRequeridas PersonasRequeridasPorSkill
+	Presupuesto        float64
+	Sueldos            float64
+	HardSkills         map[persona.HardSkill]int
+	SoftSkills         map[persona.SoftSkill]int
+}
+
 // New construye un nuevo proyecto
 func New(nombre string, cantidadDePersonasRequeridas PersonasRequeridasPorSkill, presupuesto float64) *Proyecto {
 	return &Proyecto{
@@ -111,6 +121,16 @@ func (p *Proyecto) cantidadDeHardSkillsFaltantes() int {
 	return faltantes
 }
 
+func (p *Proyecto) hardSkills() map[persona.HardSkill]int {
+	hardSkills := make(map[persona.HardSkill]int)
+
+	for _, persona := range p.personasAsignadas {
+		hardSkills[persona.HardSkill()] = hardSkills[persona.HardSkill()] + 1
+	}
+
+	return hardSkills
+}
+
 func (p *Proyecto) cantidadDeSoftSkillsDiferentes() int {
 
 	softSkills := make(map[persona.SoftSkill]bool)
@@ -119,6 +139,16 @@ func (p *Proyecto) cantidadDeSoftSkillsDiferentes() int {
 		softSkills[persona.SoftSkill()] = true
 	}
 	return len(softSkills)
+}
+
+func (p *Proyecto) softSkills() map[persona.SoftSkill]int {
+	softSkills := make(map[persona.SoftSkill]int)
+
+	for _, persona := range p.personasAsignadas {
+		softSkills[persona.SoftSkill()] = softSkills[persona.SoftSkill()] + 1
+	}
+
+	return softSkills
 }
 
 // Fitness evalúa cuan bien está este proyecto
@@ -142,4 +172,17 @@ func (p *Proyecto) Fitness() (float64, error) {
 		fitness = math.Inf(-1)
 	}
 	return fitness, nil
+}
+
+// ObtenerResumen devuelve un resumen de la información del proyecto
+func (p *Proyecto) ObtenerResumen() Resumen {
+	resumen := Resumen{
+		Nombre:             p.nombre,
+		PersonasRequeridas: p.personasRequeridas,
+		Presupuesto:        p.presupuesto,
+		Sueldos:            p.sueldos(),
+		HardSkills:         p.hardSkills(),
+		SoftSkills:         p.softSkills(),
+	}
+	return resumen
 }
