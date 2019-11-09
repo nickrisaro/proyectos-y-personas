@@ -21,6 +21,11 @@ func (e *Empresa) DarDeAltaEmpleado(persona *persona.Persona) {
 	e.empleados = append(e.empleados, persona)
 }
 
+// ModificarPersona modifica la persona del ID indicado con los datos de la persona recibida
+func (e *Empresa) ModificarPersona(ID int, persona *persona.Persona) {
+	e.empleados[ID] = persona
+}
+
 // DarDeAltaProyecto registra el proyecto en la empresa
 func (e *Empresa) DarDeAltaProyecto(proyecto *proyecto.Proyecto) {
 	e.proyectos = append(e.proyectos, proyecto)

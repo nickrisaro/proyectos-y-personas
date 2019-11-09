@@ -60,3 +60,16 @@ func TestUnaEmpresaPuedeCalcularElFitnessDeUnaAsignacionDePersonasAProyectos(t *
 
 	assert.Equal(t, 2.0, fitnessSolucion, "El fitness de la solución no es el esperado")
 }
+
+func TestSePuedenModificarLosDatosDeUnaPersona(t *testing.T) {
+
+	ana := persona.New("Ana", 1.0, persona.Senior, persona.Desarrollo, persona.Negociacion)
+	juan := persona.New("Juan", 1.0, persona.Junior, persona.Operaciones, persona.Investigacion)
+	empresa := empresa.New()
+	empresa.DarDeAltaEmpleado(ana)
+
+	empresa.ModificarPersona(0, juan)
+
+	personas := []*persona.Persona{juan}
+	assert.Equal(t, personas, empresa.Empleados(), "Los datos de la persona no son correctos")
+}
