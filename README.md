@@ -28,8 +28,10 @@ Las personas tienen un sólo skill duro y un sólo skill blando, y no se hace di
 
 Los skills no son configurables.
 
+La función de fitness no considera el género de las personas, sería interesante explorar esto.
+
 ## TODO
-* Generar una solución bastante buena
+* ~~Generar una solución bastante buena~~
 * Guardar la solución en un archivo
 * Experimentar con otras maneras de armar las soluciones hijas
 * Explorar con mutaciones en las soluciones
