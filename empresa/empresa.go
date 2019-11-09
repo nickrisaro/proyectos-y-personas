@@ -68,3 +68,14 @@ func (e *Empresa) EvaluarSolucion(solucion []int) float64 {
 
 	return fitness
 }
+
+// ResumenDeProyectos devuelve un resumen de todos los proyectos de la empresa
+func (e *Empresa) ResumenDeProyectos() []proyecto.Resumen {
+	resumenes := make([]proyecto.Resumen, len(e.proyectos))
+
+	for i, proyecto := range e.proyectos {
+		resumenes[i] = proyecto.ObtenerResumen()
+	}
+
+	return resumenes
+}

@@ -88,3 +88,36 @@ func TestSePuedenModificarLosDatosDeUnProyecto(t *testing.T) {
 	proyectos := []*proyecto.Proyecto{otroProyecto}
 	assert.Equal(t, proyectos, empresa.Proyectos(), "Los datos del proyecto no son correctos")
 }
+
+func TestUnaEmpresaBrindaUnResumenDeSusProyectos(t *testing.T) {
+
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	unProyecto := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
+	otroProyecto := proyecto.New("Proyecto dos", personasRequeridas, 1.0)
+	empresa := empresa.New()
+
+	empresa.DarDeAltaProyecto(unProyecto)
+	empresa.DarDeAltaProyecto(otroProyecto)
+
+	resumenProyectoUno := proyecto.Resumen{
+		Nombre:             "Proyecto uno",
+		PersonasRequeridas: personasRequeridas,
+		Presupuesto:        1.0,
+		Sueldos:            0.0,
+		HardSkills:         make(map[persona.HardSkill]int),
+		SoftSkills:         make(map[persona.SoftSkill]int),
+	}
+
+	resumenProyectoDos := proyecto.Resumen{
+		Nombre:             "Proyecto dos",
+		PersonasRequeridas: personasRequeridas,
+		Presupuesto:        1.0,
+		Sueldos:            0.0,
+		HardSkills:         make(map[persona.HardSkill]int),
+		SoftSkills:         make(map[persona.SoftSkill]int),
+	}
+
+	proyectos := []proyecto.Resumen{resumenProyectoUno, resumenProyectoDos}
+	assert.Equal(t, proyectos, empresa.ResumenDeProyectos(), "El resumen de los proyectos de la empresa no es correcto")
+}
