@@ -124,7 +124,7 @@ func (p *Proyecto) cantidadDeHardSkillsFaltantes() int {
 func (p *Proyecto) hardSkills() map[persona.HardSkill]int {
 	hardSkills := make(map[persona.HardSkill]int)
 
-	for _, persona := range p.personasAsignadas {
+	for _, persona := range p.ApersonasAsignadas {
 		hardSkills[persona.HardSkill()] = hardSkills[persona.HardSkill()] + 1
 	}
 
@@ -144,7 +144,7 @@ func (p *Proyecto) cantidadDeSoftSkillsDiferentes() int {
 func (p *Proyecto) softSkills() map[persona.SoftSkill]int {
 	softSkills := make(map[persona.SoftSkill]int)
 
-	for _, persona := range p.personasAsignadas {
+	for _, persona := range p.ApersonasAsignadas {
 		softSkills[persona.SoftSkill()] = softSkills[persona.SoftSkill()] + 1
 	}
 
@@ -177,9 +177,9 @@ func (p *Proyecto) Fitness() (float64, error) {
 // ObtenerResumen devuelve un resumen de la información del proyecto
 func (p *Proyecto) ObtenerResumen() Resumen {
 	resumen := Resumen{
-		Nombre:             p.nombre,
-		PersonasRequeridas: p.personasRequeridas,
-		Presupuesto:        p.presupuesto,
+		Nombre:             p.Anombre,
+		PersonasRequeridas: p.ApersonasRequeridas,
+		Presupuesto:        p.Apresupuesto,
 		Sueldos:            p.sueldos(),
 		HardSkills:         p.hardSkills(),
 		SoftSkills:         p.softSkills(),
