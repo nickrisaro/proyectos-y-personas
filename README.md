@@ -32,11 +32,11 @@ La función de fitness no considera el género de las personas, sería interesan
 
 ## TODO
 * ~~Generar una solución bastante buena~~
-* Guardar la solución en un archivo
+* ~~Guardar la solución en un archivo~~ (Implementado como servicio REST)
 * Experimentar con otras maneras de armar las soluciones hijas
 * Explorar con mutaciones en las soluciones
 * Exportar la solución a distintos tipos de archivo (CSV)
-* Cargar empresa con personas y proyecto de un archivo
+* ~~Cargar empresa con personas y proyecto de un archivo~~ (Implementado como servicio REST)
 * Cargar los pesos de las características de un archivo
 * Permitir que un proyecto se exceda de su presupuesto
 * ¿Me interesa ver las soluciones parciales?
