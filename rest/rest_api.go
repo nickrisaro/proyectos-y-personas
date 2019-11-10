@@ -8,6 +8,7 @@ import (
 	"github.com/nickrisaro/proyectos-y-personas/empresa"
 	"github.com/nickrisaro/proyectos-y-personas/persona"
 	"github.com/nickrisaro/proyectos-y-personas/proyecto"
+	"github.com/nickrisaro/proyectos-y-personas/solucion"
 )
 
 // API API REST para administrar la empresa
@@ -34,6 +35,8 @@ func (a *API) Start() {
 	router.POST("/proyectos", a.altaProyectos)
 	router.PUT("/proyecto/:id", a.modificacionProyecto)
 
+	router.POST("/solucionar", a.solucionar)
+
 	router.Run()
 }
 
@@ -42,11 +45,11 @@ func (a *API) listarPersonas(c *gin.Context) {
 }
 
 func (a *API) altaPersonas(c *gin.Context) {
-	personas := make([]persona.Persona, 0)
+	personas := make([]*persona.Persona, 0)
 	c.ShouldBindJSON(&personas)
 
 	for _, persona := range personas {
-		a.empresa.DarDeAltaEmpleado(&persona)
+		a.empresa.DarDeAltaEmpleado(persona)
 	}
 	c.JSON(http.StatusOK, struct{ Message string }{fmt.Sprintf("%d personas dadas de alta", len(personas))})
 }
@@ -62,11 +65,11 @@ func (a *API) modificacionPersona(c *gin.Context) {
 }
 
 func (a *API) altaProyectos(c *gin.Context) {
-	proyectos := make([]proyecto.Proyecto, 0)
+	proyectos := make([]*proyecto.Proyecto, 0)
 	c.ShouldBindJSON(&proyectos)
 
 	for _, proyecto := range proyectos {
-		a.empresa.DarDeAltaProyecto(&proyecto)
+		a.empresa.DarDeAltaProyecto(proyecto)
 	}
 	c.JSON(http.StatusOK, struct{ Message string }{fmt.Sprintf("%d proyectos dados de alta", len(proyectos))})
 }
@@ -83,4 +86,13 @@ func (a *API) modificacionProyecto(c *gin.Context) {
 	a.empresa.ModificarProyecto(IDProyecto, &nuevoProyecto)
 
 	c.JSON(http.StatusOK, struct{ Message string }{fmt.Sprintf("Proyecto %d modificado", IDProyecto)})
+}
+
+func (a *API) solucionar(c *gin.Context) {
+	solucionador := solucion.NewGenerador(a.empresa,
+		solucion.NewAlgoritmoGenetico(len(a.empresa.Empleados()),
+			len(a.empresa.Proyectos())))
+	solucionador.ObtenerSolucion()
+	// Aplicar la mejor solución a la empresa
+	c.JSON(http.StatusOK, a.empresa.ResumenDeProyectos())
 }
