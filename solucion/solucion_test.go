@@ -25,17 +25,38 @@ func TestSeGeneraUnaSolucionParaUnaEmpresa(t *testing.T) {
 	juan := persona.New("Juan", 1.0, persona.Junior, persona.Operaciones, persona.Investigacion)
 	empresa.DarDeAltaEmpleado(juan)
 
-	generadorDeSoluciones := solucion.NewGenerador(empresa, &algoritmoConstante{})
+	generadorDeSoluciones := solucion.NewGenerador(empresa, &algoritmoConstante{[]int{0, 1}})
 	unaSolucion := generadorDeSoluciones.ObtenerSolucion()
 
 	assert.Equal(t, []int{0, 1}, unaSolucion.Configuracion(), "No se obtuvo la solución esperada")
 	assert.Equal(t, 2.0, unaSolucion.Fitness(), "No se obtuvo el fitness esperado")
 }
 
-type algoritmoConstante struct{}
+func TestSeGeneraUnaSolucionParaUnaEmpresaConUnSoloProyecto(t *testing.T) {
+
+	empresa := empresa.New()
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	unProyecto := proyecto.New("Proyecto uno", personasRequeridas, 2.0)
+	empresa.DarDeAltaProyecto(unProyecto)
+	ana := persona.New("Ana", 1.0, persona.Senior, persona.Desarrollo, persona.Negociacion)
+	empresa.DarDeAltaEmpleado(ana)
+	juan := persona.New("Juan", 1.0, persona.Junior, persona.Operaciones, persona.Investigacion)
+	empresa.DarDeAltaEmpleado(juan)
+
+	generadorDeSoluciones := solucion.NewGenerador(empresa, &algoritmoConstante{[]int{0, 0}})
+	unaSolucion := generadorDeSoluciones.ObtenerSolucion()
+
+	assert.Equal(t, []int{0, 0}, unaSolucion.Configuracion(), "No se obtuvo la solución esperada")
+	assert.InDelta(t, 3.4, unaSolucion.Fitness(), 0.01, "No se obtuvo el fitness esperado")
+}
+
+type algoritmoConstante struct {
+	configuracion []int
+}
 
 func (a *algoritmoConstante) GenerarNuevaSolucion() *solucion.Solucion {
-	return solucion.New([]int{0, 1}, 2.0)
+	return solucion.New(a.configuracion, 2.0)
 }
 
 func (a *algoritmoConstante) NuevaGeneracionDeSoluciones(soluciones []*solucion.Solucion) []*solucion.Solucion {
