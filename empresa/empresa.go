@@ -69,6 +69,15 @@ func (e *Empresa) EvaluarSolucion(solucion []int) float64 {
 	return fitness
 }
 
+// AplicarSolucion asigna personas a los proyectos  según lo que dice la solución
+func (e *Empresa) AplicarSolucion(configuracion []int) {
+
+	for persona, proyecto := range configuracion {
+		e.proyectos[proyecto].AsignarPersona(e.empleados[persona])
+	}
+
+}
+
 // ResumenDeProyectos devuelve un resumen de todos los proyectos de la empresa
 func (e *Empresa) ResumenDeProyectos() []proyecto.Resumen {
 	resumenes := make([]proyecto.Resumen, len(e.proyectos))
