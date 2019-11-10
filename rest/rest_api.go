@@ -28,11 +28,17 @@ func (a *API) Start() {
 
 	router.GET("/personas", a.listarPersonas)
 	router.POST("/personas", a.altaPersonas)
+	router.PUT("/persona/:id", a.modificacionPersona)
 
 	router.GET("/proyectos", a.listarProyectos)
 	router.POST("/proyectos", a.altaProyectos)
+	router.PUT("/proyecto/:id", a.modificacionProyecto)
 
 	router.Run()
+}
+
+func (a *API) listarPersonas(c *gin.Context) {
+	c.JSON(http.StatusOK, a.empresa.Empleados())
 }
 
 func (a *API) altaPersonas(c *gin.Context) {
@@ -45,8 +51,14 @@ func (a *API) altaPersonas(c *gin.Context) {
 	c.JSON(http.StatusOK, struct{ Message string }{fmt.Sprintf("%d personas dadas de alta", len(personas))})
 }
 
-func (a *API) listarPersonas(c *gin.Context) {
-	c.JSON(http.StatusOK, a.empresa.Empleados())
+func (a *API) modificacionPersona(c *gin.Context) {
+	nuevaPersona := persona.Persona{}
+	c.ShouldBindJSON(&nuevaPersona)
+
+	IDPersona := c.GetInt("id")
+	a.empresa.ModificarPersona(IDPersona, &nuevaPersona)
+
+	c.JSON(http.StatusOK, struct{ Message string }{fmt.Sprintf("Persona %d modificada", IDPersona)})
 }
 
 func (a *API) altaProyectos(c *gin.Context) {
@@ -61,4 +73,14 @@ func (a *API) altaProyectos(c *gin.Context) {
 
 func (a *API) listarProyectos(c *gin.Context) {
 	c.JSON(http.StatusOK, a.empresa.Proyectos())
+}
+
+func (a *API) modificacionProyecto(c *gin.Context) {
+	nuevoProyecto := proyecto.Proyecto{}
+	c.ShouldBindJSON(&nuevoProyecto)
+
+	IDProyecto := c.GetInt("id")
+	a.empresa.ModificarProyecto(IDProyecto, &nuevoProyecto)
+
+	c.JSON(http.StatusOK, struct{ Message string }{fmt.Sprintf("Proyecto %d modificado", IDProyecto)})
 }
