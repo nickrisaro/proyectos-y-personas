@@ -92,7 +92,8 @@ func (a *API) solucionar(c *gin.Context) {
 	solucionador := solucion.NewGenerador(a.empresa,
 		solucion.NewAlgoritmoGenetico(len(a.empresa.Empleados()),
 			len(a.empresa.Proyectos())))
+
 	solucionador.ObtenerSolucion()
-	// Aplicar la mejor solución a la empresa
+
 	c.JSON(http.StatusOK, a.empresa.ResumenDeProyectos())
 }

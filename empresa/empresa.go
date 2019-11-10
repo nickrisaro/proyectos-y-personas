@@ -72,6 +72,10 @@ func (e *Empresa) EvaluarSolucion(solucion []int) float64 {
 // AplicarSolucion asigna personas a los proyectos  según lo que dice la solución
 func (e *Empresa) AplicarSolucion(configuracion []int) {
 
+	for i, proyecto := range e.proyectos {
+		e.proyectos[i] = proyecto.Clonar()
+	}
+
 	for persona, proyecto := range configuracion {
 		e.proyectos[proyecto].AsignarPersona(e.empleados[persona])
 	}

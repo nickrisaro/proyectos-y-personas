@@ -45,6 +45,8 @@ func (g *GeneradorDeSoluciones) ObtenerSolucion() *Solucion {
 		soluciones = g.algoritmo.NuevaGeneracionDeSoluciones(soluciones)
 	}
 
+	g.laEmpresa.AplicarSolucion(g.mejorSolucion.Configuracion())
+
 	return g.mejorSolucion
 }
 
