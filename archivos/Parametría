@@ -1,0 +1,14 @@
+HardSkills
+    Desarrollo  0
+    Diseño      1
+    Operaciones 2
+
+SoftSkills
+	Negociacion     0
+	Mentoreo        1
+	Investigacion   2
+
+Seniority
+	Junior      1
+	SemiSenior  2
+	Senior      3

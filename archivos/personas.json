@@ -1,0 +1,212 @@
+[
+    {
+        "nombre": "Diego",
+        "sueldo": 75000,
+        "seniority": 3,
+        "hardSkill": 1,
+        "softSkill": 2
+    },
+    {
+        "nombre": "Claudio",
+        "sueldo": 70000,
+        "seniority": 3,
+        "hardSkill": 0,
+        "softSkill": 1
+    },
+    {
+        "nombre": "Sergio",
+        "sueldo": 65000,
+        "seniority": 3,
+        "hardSkill": 2,
+        "softSkill": 0
+    },
+    {
+        "nombre": "Natalia",
+        "sueldo": 70000,
+        "seniority": 3,
+        "hardSkill": 0,
+        "softSkill": 1
+    },
+    {
+        "nombre": "Marcelo",
+        "sueldo": 69000,
+        "seniority": 3,
+        "hardSkill": 1,
+        "softSkill": 1
+    },
+    {
+        "nombre": "Mariana",
+        "sueldo": 69500,
+        "seniority": 3,
+        "hardSkill": 2,
+        "softSkill": 0
+    },
+    {
+        "nombre": "Santiago",
+        "sueldo": 65000,
+        "seniority": 2,
+        "hardSkill": 0,
+        "softSkill": 2
+    },
+    {
+        "nombre": "Victoria",
+        "sueldo": 60000,
+        "seniority": 2,
+        "hardSkill": 2,
+        "softSkill": 2
+    },
+    {
+        "nombre": "María",
+        "sueldo": 65500,
+        "seniority": 2,
+        "hardSkill": 1,
+        "softSkill": 1
+    },
+    {
+        "nombre": "Joaquin",
+        "sueldo": 58000,
+        "seniority": 2,
+        "hardSkill": 0,
+        "softSkill": 0
+    },
+    {
+        "nombre": "Martín",
+        "sueldo": 40000,
+        "seniority": 1,
+        "hardSkill": 1,
+        "softSkill": 0
+    },
+    {
+        "nombre": "Gabriel",
+        "sueldo": 60000,
+        "seniority": 2,
+        "hardSkill": 2,
+        "softSkill": 2
+    },
+    {
+        "nombre": "Ivana",
+        "sueldo": 37000,
+        "seniority": 1,
+        "hardSkill": 0,
+        "softSkill": 1
+    },
+    {
+        "nombre": "Virginia",
+        "sueldo": 66000,
+        "seniority": 2,
+        "hardSkill": 1,
+        "softSkill": 0
+    },
+    {
+        "nombre": "Eduardo",
+        "sueldo": 36000,
+        "seniority": 1,
+        "hardSkill": 2,
+        "softSkill": 2
+    },
+    {
+        "nombre": "Ariel",
+        "sueldo": 72000,
+        "seniority": 3,
+        "hardSkill": 2,
+        "softSkill": 0
+    },
+    {
+        "nombre": "Damian",
+        "sueldo": 40000,
+        "seniority": 1,
+        "hardSkill": 1,
+        "softSkill": 2
+    },
+    {
+        "nombre": "Javier",
+        "sueldo": 30000,
+        "seniority": 1,
+        "hardSkill": 0,
+        "softSkill": 1
+    },
+    {
+        "nombre": "David",
+        "sueldo": 39000,
+        "seniority": 1,
+        "hardSkill": 0,
+        "softSkill": 0
+    },
+    {
+        "nombre": "Mariano",
+        "sueldo": 49000,
+        "seniority": 2,
+        "hardSkill": 1,
+        "softSkill": 1
+    },
+    {
+        "nombre": "Miguel",
+        "sueldo": 32000,
+        "seniority": 1,
+        "hardSkill": 2,
+        "softSkill": 2
+    },
+    {
+        "nombre": "Guillermo",
+        "sueldo": 32000,
+        "seniority": 1,
+        "hardSkill": 2,
+        "softSkill": 1
+    },
+    {
+        "nombre": "Magdalena",
+        "sueldo": 58000,
+        "seniority": 2,
+        "hardSkill": 1,
+        "softSkill": 2
+    },
+    {
+        "nombre": "Matías",
+        "sueldo": 66000,
+        "seniority": 3,
+        "hardSkill": 0,
+        "softSkill": 0
+    },
+    {
+        "nombre": "Lucía",
+        "sueldo": 41000,
+        "seniority": 1,
+        "hardSkill": 0,
+        "softSkill": 2
+    },
+    {
+        "nombre": "Ignacio",
+        "sueldo": 73,
+        "seniority": 3,
+        "hardSkill": 2,
+        "softSkill": 2
+    },
+    {
+        "nombre": "Mateo",
+        "sueldo": 66000,
+        "seniority": 2,
+        "hardSkill": 1,
+        "softSkill": 0
+    },
+    {
+        "nombre": "Lucas",
+        "sueldo": 60000,
+        "seniority": 3,
+        "hardSkill": 0,
+        "softSkill": 0
+    },
+    {
+        "nombre": "Fernanda",
+        "sueldo": 38000,
+        "seniority": 1,
+        "hardSkill": 1,
+        "softSkill": 1
+    },
+    {
+        "nombre": "Claudia",
+        "sueldo": 63000,
+        "seniority": 2,
+        "hardSkill": 2,
+        "softSkill": 1
+    }
+]
