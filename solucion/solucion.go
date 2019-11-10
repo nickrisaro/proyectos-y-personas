@@ -97,7 +97,7 @@ func (a *AlgoritmoGenetico) GenerarNuevaSolucion() *Solucion {
 	personas := make([]int, a.cantidadDePersonas)
 
 	for i := range personas {
-		personas[i] = rand.Intn(a.cantidadDeProyectos)
+		personas[i] = rand.Intn(a.cantidadDeProyectos+1) - 1
 	}
 
 	return &Solucion{personas, 0.0}

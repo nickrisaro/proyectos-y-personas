@@ -44,11 +44,11 @@ func TestSeGeneraUnaSolucionParaUnaEmpresaConUnSoloProyecto(t *testing.T) {
 	juan := persona.New("Juan", 1.0, persona.Junior, persona.Operaciones, persona.Investigacion)
 	empresa.DarDeAltaEmpleado(juan)
 
-	generadorDeSoluciones := solucion.NewGenerador(empresa, &algoritmoConstante{[]int{0, 0}})
+	generadorDeSoluciones := solucion.NewGenerador(empresa, &algoritmoConstante{[]int{0, -1}})
 	unaSolucion := generadorDeSoluciones.ObtenerSolucion()
 
-	assert.Equal(t, []int{0, 0}, unaSolucion.Configuracion(), "No se obtuvo la solución esperada")
-	assert.InDelta(t, 3.4, unaSolucion.Fitness(), 0.01, "No se obtuvo el fitness esperado")
+	assert.Equal(t, []int{0, -1}, unaSolucion.Configuracion(), "No se obtuvo la solución esperada")
+	assert.InDelta(t, 2.1, unaSolucion.Fitness(), 0.01, "No se obtuvo el fitness esperado")
 }
 
 type algoritmoConstante struct {
@@ -71,9 +71,9 @@ func TestElAlgoritmoGeneticoGeneraSolucionesAleatorias(t *testing.T) {
 	configuracion := unaSolucion.Configuracion()
 
 	assert.Equal(t, 2, len(configuracion), "La longitud de la solución no es la esperada")
-	assert.GreaterOrEqual(t, configuracion[0], 0, "El valor está fuera del rango")
+	assert.GreaterOrEqual(t, configuracion[0], -1, "El valor está fuera del rango")
 	assert.LessOrEqual(t, configuracion[0], 1, "El valor está fuera del rango")
-	assert.GreaterOrEqual(t, configuracion[1], 0, "El valor está fuera del rango")
+	assert.GreaterOrEqual(t, configuracion[1], -1, "El valor está fuera del rango")
 	assert.LessOrEqual(t, configuracion[1], 1, "El valor está fuera del rango")
 }
 

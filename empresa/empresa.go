@@ -56,7 +56,9 @@ func (e *Empresa) EvaluarSolucion(solucion []int) float64 {
 	}
 
 	for persona, proyecto := range solucion {
-		proyectosClonados[proyecto].AsignarPersona(e.empleados[persona])
+		if proyecto >= 0 {
+			proyectosClonados[proyecto].AsignarPersona(e.empleados[persona])
+		}
 	}
 
 	fitness := 0.0
@@ -77,7 +79,9 @@ func (e *Empresa) AplicarSolucion(configuracion []int) {
 	}
 
 	for persona, proyecto := range configuracion {
-		e.proyectos[proyecto].AsignarPersona(e.empleados[persona])
+		if proyecto >= 0 {
+			e.proyectos[proyecto].AsignarPersona(e.empleados[persona])
+		}
 	}
 
 }
