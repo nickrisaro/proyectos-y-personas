@@ -83,7 +83,7 @@ func TestUnProyectoQueSeExcedeDelPresupuestoTieneFitnessNegativo(t *testing.T) {
 	assert.Less(t, fitness, 0.0, "El fitness del proyecto debería ser negativo")
 }
 
-func TestUnProyectoConMenorGastoDeSueldosTieneMejorFitnessQueUnoConMayorGastoDeSueldos(t *testing.T) {
+func TestUnProyectoConMenorGastoDeSueldosTieneIgualFitnessQueUnoConMayorGastoDeSueldos(t *testing.T) {
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(1)
@@ -97,7 +97,7 @@ func TestUnProyectoConMenorGastoDeSueldosTieneMejorFitnessQueUnoConMayorGastoDeS
 	fitnessDelProyectoQueGastaMenos, _ := proyectoQueGastaMenos.Fitness()
 	fitnessDelProyectoQueGastaMas, _ := proyectoQueGastaMas.Fitness()
 
-	assert.Greater(t, fitnessDelProyectoQueGastaMenos, fitnessDelProyectoQueGastaMas, "El fitness del proyecto más barato debería ser mayor que el del más caro")
+	assert.InDelta(t, fitnessDelProyectoQueGastaMenos, fitnessDelProyectoQueGastaMas, 0.1, "El fitness del proyecto más barato debería ser mayor que el del más caro")
 
 }
 

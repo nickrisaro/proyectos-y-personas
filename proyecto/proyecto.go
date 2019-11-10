@@ -163,7 +163,6 @@ func (p *Proyecto) Fitness() (float64, error) {
 	}
 
 	fitness := coeficientePersonas*float64(len(p.ApersonasAsignadas)-p.ApersonasRequeridas.cantidadDePersonasRequeridas()) +
-		coeficientePresupuesto*(p.Apresupuesto-p.sueldos()) +
 		coeficienteSeniority*float64(p.seniorities()) +
 		coeficienteSoftSkills*float64(p.cantidadDeSoftSkillsDiferentes()) -
 		coeficienteHardSkills*float64(p.cantidadDeHardSkillsFaltantes())
