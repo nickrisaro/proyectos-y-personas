@@ -43,6 +43,10 @@ func (g *GeneradorDeSoluciones) ObtenerSolucion() *Solucion {
 			}
 		}
 		soluciones = g.algoritmo.NuevaGeneracionDeSoluciones(soluciones)
+
+		for i := 0; i < len(soluciones); i++ {
+			soluciones[i].fitness = g.laEmpresa.EvaluarSolucion(soluciones[i].configuracion)
+		}
 	}
 
 	g.laEmpresa.AplicarSolucion(g.mejorSolucion.Configuracion())
