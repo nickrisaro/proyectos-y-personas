@@ -107,6 +107,7 @@ func TestUnaEmpresaBrindaUnResumenDeSusProyectos(t *testing.T) {
 		Sueldos:            0.0,
 		HardSkills:         make(map[persona.HardSkill]int),
 		SoftSkills:         make(map[persona.SoftSkill]int),
+		Seniorities:        make(map[persona.Seniority]int),
 	}
 
 	resumenProyectoDos := proyecto.Resumen{
@@ -116,6 +117,7 @@ func TestUnaEmpresaBrindaUnResumenDeSusProyectos(t *testing.T) {
 		Sueldos:            0.0,
 		HardSkills:         make(map[persona.HardSkill]int),
 		SoftSkills:         make(map[persona.SoftSkill]int),
+		Seniorities:        make(map[persona.Seniority]int),
 	}
 
 	proyectos := []proyecto.Resumen{resumenProyectoUno, resumenProyectoDos}

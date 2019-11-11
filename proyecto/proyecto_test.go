@@ -180,9 +180,9 @@ func TestSePuedeObtenerUnResumenDelProyecto(t *testing.T) {
 
 	unInvestigador := persona.New("Mario", 0.9, persona.Junior, persona.Desarrollo, persona.Investigacion)
 	unaInvestigadora := persona.New("Ana", 0.9, persona.Junior, persona.Desarrollo, persona.Investigacion)
-	otroInvestigador := persona.New("Juan", 0.9, persona.Junior, persona.Desarrollo, persona.Investigacion)
-	unaMentora := persona.New("Clara", 0.9, persona.Junior, persona.Diseño, persona.Mentoreo)
-	unaNegociadora := persona.New("Lucía", 0.9, persona.Junior, persona.Operaciones, persona.Negociacion)
+	otroInvestigador := persona.New("Juan", 0.9, persona.SemiSenior, persona.Desarrollo, persona.Investigacion)
+	unaMentora := persona.New("Clara", 0.9, persona.SemiSenior, persona.Diseño, persona.Mentoreo)
+	unaNegociadora := persona.New("Lucía", 0.9, persona.Senior, persona.Operaciones, persona.Negociacion)
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(3)
@@ -209,6 +209,11 @@ func TestSePuedeObtenerUnResumenDelProyecto(t *testing.T) {
 	softSkills[persona.Mentoreo] = 1
 	softSkills[persona.Negociacion] = 1
 
+	seniorities := make(map[persona.Seniority]int)
+	seniorities[persona.Junior] = 2
+	seniorities[persona.SemiSenior] = 2
+	seniorities[persona.Senior] = 1
+
 	assert.NotEmpty(t, resumen, "El proyecto debe tener un resumen")
 	assert.Equal(t, "Proyecto uno", resumen.Nombre, "El resumen no contiene información del nombre del proyecto")
 	assert.Equal(t, personasRequeridas, resumen.PersonasRequeridas, "El resumen no contiene información de las personas requeridas")
@@ -216,4 +221,5 @@ func TestSePuedeObtenerUnResumenDelProyecto(t *testing.T) {
 	assert.Equal(t, 4.5, resumen.Sueldos, "El resumen no contiene información de los sueldos")
 	assert.Equal(t, hardSkills, resumen.HardSkills, "El resumen no contiene información de los hard skills")
 	assert.Equal(t, softSkills, resumen.SoftSkills, "El resumen no contiene información de los soft skills")
+	assert.Equal(t, seniorities, resumen.Seniorities, "El resumen no contiene información de los seniorities")
 }

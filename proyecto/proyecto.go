@@ -64,6 +64,7 @@ type Resumen struct {
 	Sueldos            float64
 	HardSkills         map[persona.HardSkill]int
 	SoftSkills         map[persona.SoftSkill]int
+	Seniorities        map[persona.Seniority]int
 }
 
 // New construye un nuevo proyecto
@@ -151,6 +152,16 @@ func (p *Proyecto) softSkills() map[persona.SoftSkill]int {
 	return softSkills
 }
 
+func (p *Proyecto) resumenSeniorities() map[persona.Seniority]int {
+	seniorities := make(map[persona.Seniority]int)
+
+	for _, persona := range p.ApersonasAsignadas {
+		seniorities[persona.Seniority()] = seniorities[persona.Seniority()] + 1
+	}
+
+	return seniorities
+}
+
 // Fitness evalúa cuan bien está este proyecto
 // es una medida para comparar contra otro proyecto u otras "versiones" del mismo proyecto
 func (p *Proyecto) Fitness() (float64, error) {
@@ -182,6 +193,7 @@ func (p *Proyecto) ObtenerResumen() Resumen {
 		Sueldos:            p.sueldos(),
 		HardSkills:         p.hardSkills(),
 		SoftSkills:         p.softSkills(),
+		Seniorities:        p.resumenSeniorities(),
 	}
 	return resumen
 }
