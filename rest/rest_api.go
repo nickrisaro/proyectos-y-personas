@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/nickrisaro/proyectos-y-personas/empresa"
 	"github.com/nickrisaro/proyectos-y-personas/persona"
@@ -26,6 +27,8 @@ func New(empresa *empresa.Empresa) *API {
 // Start inicia la API, queda escuchando en todas las interfaces en el puerto 8080
 func (a *API) Start() {
 	router := gin.Default()
+
+	router.Use(cors.Default())
 
 	router.GET("/personas", a.listarPersonas)
 	router.POST("/personas", a.altaPersonas)
