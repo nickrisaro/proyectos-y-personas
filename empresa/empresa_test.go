@@ -22,6 +22,21 @@ func TestUnaEmpresaTieneEmpleados(t *testing.T) {
 	assert.Equal(t, personas, empresa.Empleados(), "Los empleados de la empresa no son correctos")
 }
 
+func TestAlDarDeAltaUnaPersonaSeLeAsignaUnID(t *testing.T) {
+
+	ana := persona.New("Ana", 1.0, persona.Senior, persona.Desarrollo, persona.Negociacion)
+	juan := persona.New("Juan", 1.0, persona.Junior, persona.Operaciones, persona.Investigacion)
+	empresa := empresa.New()
+
+	empresa.DarDeAltaEmpleado(ana)
+	empresa.DarDeAltaEmpleado(juan)
+
+	idsEsperadosPersonas := []int{0, 1}
+	idsObtenidosPersonas := []int{empresa.Empleados()[0].ID, empresa.Empleados()[1].ID}
+
+	assert.Equal(t, idsEsperadosPersonas, idsObtenidosPersonas, "Los ids de los empleados de la empresa no son correctos")
+}
+
 func TestUnaEmpresaTieneProyectos(t *testing.T) {
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()

@@ -39,6 +39,7 @@ const (
 // Persona representa a una persona que trabaja en la empresa
 // tiene un sueledo
 type Persona struct {
+	ID         int       `json:"id"`
 	Anombre    string    `json:"nombre"`
 	Asueldo    float64   `json:"sueldo"`
 	Aseniority Seniority `json:"seniority"`

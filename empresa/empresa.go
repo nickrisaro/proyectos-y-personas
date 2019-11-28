@@ -18,6 +18,7 @@ func New() *Empresa {
 
 // DarDeAltaEmpleado registra a la persona como empleada de la empresa
 func (e *Empresa) DarDeAltaEmpleado(persona *persona.Persona) {
+	persona.ID = len(e.Empleados())
 	e.empleados = append(e.empleados, persona)
 }
 
