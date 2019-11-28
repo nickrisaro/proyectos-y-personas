@@ -50,6 +50,7 @@ func (p PersonasRequeridasPorSkill) cantidadDePersonasRequeridas() int {
 
 // Proyecto contiene toda la información relativa a un proyecto.
 type Proyecto struct {
+	ID                  int                        `json:"id"`
 	Anombre             string                     `json:"nombre"`
 	ApersonasRequeridas PersonasRequeridasPorSkill `json:"personasRequeridas"`
 	Apresupuesto        float64                    `json:"presupuesto"`

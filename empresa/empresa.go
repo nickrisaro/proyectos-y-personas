@@ -29,6 +29,7 @@ func (e *Empresa) ModificarPersona(ID int, persona *persona.Persona) {
 
 // DarDeAltaProyecto registra el proyecto en la empresa
 func (e *Empresa) DarDeAltaProyecto(proyecto *proyecto.Proyecto) {
+	proyecto.ID = len(e.Proyectos())
 	e.proyectos = append(e.proyectos, proyecto)
 }
 

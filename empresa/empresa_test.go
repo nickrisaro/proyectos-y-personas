@@ -52,6 +52,22 @@ func TestUnaEmpresaTieneProyectos(t *testing.T) {
 	assert.Equal(t, proyectos, empresa.Proyectos(), "Los proyectos de la empresa no son correctos")
 }
 
+func TestAlDarDeAltaUnProyectoSeLeAsignaUnID(t *testing.T) {
+
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	unProyecto := proyecto.New("Proyecto uno", personasRequeridas, 1.0)
+	otroProyecto := proyecto.New("Proyecto dos", personasRequeridas, 1.0)
+	empresa := empresa.New()
+
+	empresa.DarDeAltaProyecto(unProyecto)
+	empresa.DarDeAltaProyecto(otroProyecto)
+
+	idsEsperadosProyectos := []int{0, 1}
+	idsObtenidosProyectos := []int{empresa.Proyectos()[0].ID, empresa.Proyectos()[1].ID}
+	assert.Equal(t, idsEsperadosProyectos, idsObtenidosProyectos, "Los ids de los proyectos de la empresa no son correctos")
+}
+
 func TestUnaEmpresaPuedeCalcularElFitnessDeUnaAsignacionDePersonasAProyectos(t *testing.T) {
 
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
