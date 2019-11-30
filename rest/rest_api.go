@@ -39,6 +39,7 @@ func (a *API) Start() {
 	router.PUT("/proyecto/:id", a.modificacionProyecto)
 
 	router.POST("/solucionar", a.solucionar)
+	router.GET("/soluciones", a.soluciones)
 
 	router.Run()
 }
@@ -99,4 +100,8 @@ func (a *API) solucionar(c *gin.Context) {
 	solucionador.ObtenerSolucion()
 
 	c.JSON(http.StatusOK, a.empresa.ResumenDeProyectos())
+}
+
+func (a *API) soluciones(c *gin.Context) {
+	c.JSON(http.StatusOK, a.empresa.ResumenesDeProyectos())
 }
