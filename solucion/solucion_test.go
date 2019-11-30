@@ -13,6 +13,10 @@ import (
 
 func TestSeGeneraUnaSolucionParaUnaEmpresa(t *testing.T) {
 
+	solucion.CantidadDeEpocas = 10
+	solucion.CantidadDePoblaciones = 1
+	solucion.CantidadDeSolucionesAGenerar = 40
+
 	empresa := empresa.New()
 	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
 	personasRequeridas.Desarrollo(1)

@@ -1,6 +1,7 @@
 package solucion
 
 import (
+	"fmt"
 	"math"
 	"math/rand"
 	"sort"
@@ -9,8 +10,14 @@ import (
 	"github.com/nickrisaro/proyectos-y-personas/empresa"
 )
 
-const cantidadDeSolucionesAGenerar int = 40
-const cantidadDeEpocas int = 100
+// CantidadDePoblaciones indica cuantos grupos de soluciones generar
+var CantidadDePoblaciones int = 200
+
+// CantidadDeSolucionesAGenerar indica cuantas soluciones tiene cada población
+var CantidadDeSolucionesAGenerar int = 400
+
+// CantidadDeEpocas indica cuanto iterar tratando de mejorar las soluciones de cada población
+var CantidadDeEpocas int = 100
 
 // GeneradorDeSoluciones es el encargado de buscar distribuciones posibles de
 // personas en proyectos para la empresa
@@ -29,28 +36,31 @@ func NewGenerador(unaEmpresa *empresa.Empresa, algoritmo Algoritmo) *GeneradorDe
 // ObtenerSolucion nos da una distribución de personas en proyectos
 func (g *GeneradorDeSoluciones) ObtenerSolucion() *Solucion {
 
-	soluciones := make([]*Solucion, cantidadDeSolucionesAGenerar)
-	for i := 0; i < len(soluciones); i++ {
+	for i := 0; i < CantidadDePoblaciones; i++ {
 
-		soluciones[i] = g.algoritmo.GenerarNuevaSolucion()
-		soluciones[i].fitness = g.laEmpresa.EvaluarSolucion(soluciones[i].configuracion)
-	}
-
-	for i := 0; i < cantidadDeEpocas; i++ {
-		for _, solucion := range soluciones {
-			if solucion.fitness >= g.mejorSolucion.fitness {
-				g.mejorSolucion = solucion
-			}
-		}
-		soluciones = g.algoritmo.NuevaGeneracionDeSoluciones(soluciones)
-
+		soluciones := make([]*Solucion, CantidadDeSolucionesAGenerar)
 		for i := 0; i < len(soluciones); i++ {
+
+			soluciones[i] = g.algoritmo.GenerarNuevaSolucion()
 			soluciones[i].fitness = g.laEmpresa.EvaluarSolucion(soluciones[i].configuracion)
 		}
+
+		for i := 0; i < CantidadDeEpocas; i++ {
+			for _, solucion := range soluciones {
+				if solucion.fitness >= g.mejorSolucion.fitness {
+					g.mejorSolucion = solucion
+				}
+			}
+			soluciones = g.algoritmo.NuevaGeneracionDeSoluciones(soluciones)
+			for i := 0; i < len(soluciones); i++ {
+				soluciones[i].fitness = g.laEmpresa.EvaluarSolucion(soluciones[i].configuracion)
+			}
+		}
+		fmt.Printf("La mejor solución de esta población es %v con fitness %f\n", g.mejorSolucion.configuracion, g.mejorSolucion.fitness)
 	}
 
 	g.laEmpresa.AplicarSolucion(g.mejorSolucion.Configuracion())
-
+	fmt.Printf("La mejor solución general es %v con fitness %f\n", g.mejorSolucion.configuracion, g.mejorSolucion.fitness)
 	return g.mejorSolucion
 }
 
