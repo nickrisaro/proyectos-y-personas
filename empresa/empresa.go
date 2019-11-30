@@ -9,6 +9,7 @@ import (
 type Empresa struct {
 	empleados []*persona.Persona
 	proyectos []*proyecto.Proyecto
+	resumenes [][]proyecto.Resumen
 }
 
 // New construye una nueva empresa
@@ -86,6 +87,13 @@ func (e *Empresa) AplicarSolucion(configuracion []int) {
 		}
 	}
 
+	resumenDeLaSolucion := e.ResumenDeProyectos()
+
+	if len(e.resumenes) == 2 {
+		e.resumenes = e.resumenes[1:2]
+	}
+	e.resumenes = append(e.resumenes, resumenDeLaSolucion)
+
 }
 
 // ResumenDeProyectos devuelve un resumen de todos los proyectos de la empresa
@@ -97,4 +105,9 @@ func (e *Empresa) ResumenDeProyectos() []proyecto.Resumen {
 	}
 
 	return resumenes
+}
+
+// ResumenesDeProyectos devuelve los dos últimos resúmenes de los proyectos
+func (e *Empresa) ResumenesDeProyectos() [][]proyecto.Resumen {
+	return e.resumenes
 }
