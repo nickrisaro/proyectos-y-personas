@@ -223,3 +223,33 @@ func TestSePuedeObtenerUnResumenDelProyecto(t *testing.T) {
 	assert.Equal(t, softSkills, resumen.SoftSkills, "El resumen no contiene información de los soft skills")
 	assert.Equal(t, seniorities, resumen.Seniorities, "El resumen no contiene información de los seniorities")
 }
+
+func TestUnProyectoQueTieneLasPersonasExactasTieneMejorFitnessQueUnoQueNo(t *testing.T) {
+
+	unDesarrolladorJunior := persona.New("Mario", 0.9, persona.Junior, persona.Desarrollo, persona.Investigacion)
+	unaDesarrolladoraJunior := persona.New("Ana", 0.9, persona.Junior, persona.Desarrollo, persona.Investigacion)
+	unDesarrolladorSenior := persona.New("Juan", 0.9, persona.Senior, persona.Desarrollo, persona.Investigacion)
+	unaDiseñadoraJunior := persona.New("Clara", 0.9, persona.Junior, persona.Diseño, persona.Investigacion)
+	unaOperadoraJunior := persona.New("Lucía", 0.9, persona.Junior, persona.Operaciones, persona.Investigacion)
+
+	personasRequeridas := proyecto.NewPersonasRequeridasPorSkill()
+	personasRequeridas.Desarrollo(1)
+	personasRequeridas.Diseño(1)
+	personasRequeridas.Operaciones(1)
+	proyectoQueCubreTodosLosHardSkills := proyecto.New("Proyecto uno", personasRequeridas, 3.0)
+	proyectoQueNoCubreTodosLosHardSkills := proyecto.New("Proyecto dos", personasRequeridas, 5.0)
+
+	proyectoQueCubreTodosLosHardSkills.AsignarPersona(unDesarrolladorSenior)
+	proyectoQueCubreTodosLosHardSkills.AsignarPersona(unaDiseñadoraJunior)
+	proyectoQueCubreTodosLosHardSkills.AsignarPersona(unaOperadoraJunior)
+
+	proyectoQueNoCubreTodosLosHardSkills.AsignarPersona(unDesarrolladorJunior)
+	proyectoQueNoCubreTodosLosHardSkills.AsignarPersona(unaDesarrolladoraJunior)
+	proyectoQueNoCubreTodosLosHardSkills.AsignarPersona(unaDiseñadoraJunior)
+	proyectoQueNoCubreTodosLosHardSkills.AsignarPersona(unaOperadoraJunior)
+
+	fitnessDelProyectoQueCubreTodosLosHardSkills, _ := proyectoQueCubreTodosLosHardSkills.Fitness()
+	fitnessDelProyectoQueNoCubreTodosLosHardSkills, _ := proyectoQueNoCubreTodosLosHardSkills.Fitness()
+
+	assert.Less(t, fitnessDelProyectoQueNoCubreTodosLosHardSkills, fitnessDelProyectoQueCubreTodosLosHardSkills, "El fitness del proyecto que tiene exactamente los HardSkills debería ser mayor que el del que no los tiene exactamente")
+}

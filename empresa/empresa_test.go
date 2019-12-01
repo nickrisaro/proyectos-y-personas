@@ -89,7 +89,7 @@ func TestUnaEmpresaPuedeCalcularElFitnessDeUnaAsignacionDePersonasAProyectos(t *
 
 	fitnessSolucion := empresa.EvaluarSolucion(solucion)
 
-	assert.Equal(t, 2.0, fitnessSolucion, "El fitness de la solución no es el esperado")
+	assert.Equal(t, 3.0, fitnessSolucion, "El fitness de la solución no es el esperado")
 }
 
 func TestSePuedenModificarLosDatosDeUnaPersona(t *testing.T) {

@@ -182,6 +182,13 @@ func (p *Proyecto) Fitness() (float64, error) {
 	if p.Apresupuesto-p.sueldos() < 0 {
 		fitness = math.Inf(-1)
 	}
+
+	hardSkillsProyecto := p.hardSkills()
+	for hardSkill, personas := range hardSkillsProyecto {
+		if p.ApersonasRequeridas[hardSkill] == personas {
+			fitness++
+		}
+	}
 	return fitness, nil
 }
 

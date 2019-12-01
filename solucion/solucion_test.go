@@ -33,7 +33,7 @@ func TestSeGeneraUnaSolucionParaUnaEmpresa(t *testing.T) {
 	unaSolucion := generadorDeSoluciones.ObtenerSolucion()
 
 	assert.Equal(t, []int{0, 1}, unaSolucion.Configuracion(), "No se obtuvo la solución esperada")
-	assert.Equal(t, 2.0, unaSolucion.Fitness(), "No se obtuvo el fitness esperado")
+	assert.Equal(t, 3.0, unaSolucion.Fitness(), "No se obtuvo el fitness esperado")
 }
 
 func TestSeGeneraUnaSolucionParaUnaEmpresaConUnSoloProyecto(t *testing.T) {
@@ -52,7 +52,7 @@ func TestSeGeneraUnaSolucionParaUnaEmpresaConUnSoloProyecto(t *testing.T) {
 	unaSolucion := generadorDeSoluciones.ObtenerSolucion()
 
 	assert.Equal(t, []int{0, -1}, unaSolucion.Configuracion(), "No se obtuvo la solución esperada")
-	assert.InDelta(t, 1.6, unaSolucion.Fitness(), 0.01, "No se obtuvo el fitness esperado")
+	assert.InDelta(t, 2.6, unaSolucion.Fitness(), 0.01, "No se obtuvo el fitness esperado")
 }
 
 type algoritmoConstante struct {
