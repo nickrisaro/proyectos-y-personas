@@ -5,6 +5,7 @@ import (
 	"math"
 	"math/rand"
 	"sort"
+	"sync"
 	"time"
 
 	"github.com/nickrisaro/proyectos-y-personas/empresa"
@@ -22,46 +23,67 @@ var CantidadDeEpocas int = 100
 // GeneradorDeSoluciones es el encargado de buscar distribuciones posibles de
 // personas en proyectos para la empresa
 type GeneradorDeSoluciones struct {
-	laEmpresa     *empresa.Empresa
-	algoritmo     Algoritmo
-	mejorSolucion *Solucion
+	laEmpresa         *empresa.Empresa
+	algoritmo         Algoritmo
+	mejorSolucion     *Solucion
+	mejoresSoluciones []*Solucion
 }
 
 // NewGenerador construye un nuevo generador de soluciones
 func NewGenerador(unaEmpresa *empresa.Empresa, algoritmo Algoritmo) *GeneradorDeSoluciones {
+	mejoresSoluciones := make([]*Solucion, CantidadDePoblaciones)
 	mejorSolucion := New([]int{}, math.Inf(-1))
-	return &GeneradorDeSoluciones{unaEmpresa, algoritmo, mejorSolucion}
+	return &GeneradorDeSoluciones{unaEmpresa, algoritmo, mejorSolucion, mejoresSoluciones}
 }
 
 // ObtenerSolucion nos da una distribución de personas en proyectos
 func (g *GeneradorDeSoluciones) ObtenerSolucion() *Solucion {
 
+	var waitgroup sync.WaitGroup
 	for i := 0; i < CantidadDePoblaciones; i++ {
+		waitgroup.Add(1)
+		go g.mejorarPoblacion(i, &waitgroup)
+	}
+	waitgroup.Wait()
 
-		soluciones := make([]*Solucion, CantidadDeSolucionesAGenerar)
-		for i := 0; i < len(soluciones); i++ {
-
-			soluciones[i] = g.algoritmo.GenerarNuevaSolucion()
-			soluciones[i].fitness = g.laEmpresa.EvaluarSolucion(soluciones[i].configuracion)
+	for _, solucion := range g.mejoresSoluciones {
+		if solucion.fitness >= g.mejorSolucion.fitness {
+			g.mejorSolucion = solucion
 		}
-
-		for i := 0; i < CantidadDeEpocas; i++ {
-			for _, solucion := range soluciones {
-				if solucion.fitness >= g.mejorSolucion.fitness {
-					g.mejorSolucion = solucion
-				}
-			}
-			soluciones = g.algoritmo.NuevaGeneracionDeSoluciones(soluciones)
-			for i := 0; i < len(soluciones); i++ {
-				soluciones[i].fitness = g.laEmpresa.EvaluarSolucion(soluciones[i].configuracion)
-			}
-		}
-		fmt.Printf("La mejor solución de esta población es %v con fitness %f\n", g.mejorSolucion.configuracion, g.mejorSolucion.fitness)
 	}
 
 	g.laEmpresa.AplicarSolucion(g.mejorSolucion.Configuracion())
 	fmt.Printf("La mejor solución general es %v con fitness %f\n", g.mejorSolucion.configuracion, g.mejorSolucion.fitness)
 	return g.mejorSolucion
+}
+
+func (g *GeneradorDeSoluciones) mejorarPoblacion(i int, waitgroup *sync.WaitGroup) {
+	inicio := time.Now()
+	mejorSolucion := New([]int{}, math.Inf(-1))
+
+	soluciones := make([]*Solucion, CantidadDeSolucionesAGenerar)
+	for i := 0; i < len(soluciones); i++ {
+
+		soluciones[i] = g.algoritmo.GenerarNuevaSolucion()
+		soluciones[i].fitness = g.laEmpresa.EvaluarSolucion(soluciones[i].configuracion)
+	}
+
+	for i := 0; i < CantidadDeEpocas; i++ {
+		for _, solucion := range soluciones {
+			if solucion.fitness >= mejorSolucion.fitness {
+				mejorSolucion = solucion
+			}
+		}
+		soluciones = g.algoritmo.NuevaGeneracionDeSoluciones(soluciones)
+		for i := 0; i < len(soluciones); i++ {
+			soluciones[i].fitness = g.laEmpresa.EvaluarSolucion(soluciones[i].configuracion)
+		}
+	}
+
+	g.mejoresSoluciones[i] = mejorSolucion
+	waitgroup.Done()
+	fmt.Printf("%d,%f\n", i, time.Now().Sub(inicio).Seconds())
+	fmt.Printf("La mejor solución de esta población es %v con fitness %f\n", mejorSolucion.configuracion, mejorSolucion.fitness)
 }
 
 // Solucion es una configuración posible de personas en proyectos con el fitness de esa configuración
