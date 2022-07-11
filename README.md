@@ -40,3 +40,5 @@ La función de fitness no considera el género de las personas, sería interesan
 * Cargar los pesos de las características de un archivo
 * Permitir que un proyecto se exceda de su presupuesto
 * ¿Me interesa ver las soluciones parciales?
+* Actualizar dependencias
+* 
